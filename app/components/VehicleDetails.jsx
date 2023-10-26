@@ -14,7 +14,7 @@ export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
       <Link
         href="/vehicles"
         className="flex items-center justify-start w-[70px] gap-1 p-1 mb-2 sm:mb-0
-        hover:cursor-pointer hover:bg-purple-100 hover:text-indigo-500"
+        hover:cursor-pointer hover:bg-indigo-100 hover:text-indigo-500"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

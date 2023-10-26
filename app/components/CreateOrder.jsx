@@ -54,7 +54,7 @@ export default function CreateOrder({ vehicleId, tripId }) {
           pathname: `/vehicles/${vehicleId}/${tripId}`,
         }}
         className="flex items-center justify-start w-[70px] gap-1 p-1
-        hover:cursor-pointer hover:bg-purple-100 hover:text-indigo-500 mb-2"
+        hover:cursor-pointer hover:bg-indigo-100 hover:text-indigo-500 mb-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

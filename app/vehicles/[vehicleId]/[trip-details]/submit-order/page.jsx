@@ -18,7 +18,7 @@ export default async function SubmitOrderDetails({ params, searchParams }) {
           query: { key: key, "trip-type": tripType },
         }}
         className="flex items-center justify-start w-[72px] gap-1 p-1
-        hover:cursor-pointer hover:bg-purple-100 hover:text-indigo-500"
+        hover:cursor-pointer hover:bg-indigo-100 hover:text-indigo-500"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

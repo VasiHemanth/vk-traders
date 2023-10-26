@@ -25,7 +25,7 @@ export default async function Order({ params, searchParams }) {
       <Link
         href={`/vehicles/${vehicleId}/${tripDetails}`}
         className="flex items-center justify-start w-[72px] gap-1 p-1
-        hover:cursor-pointer hover:bg-purple-100 hover:text-indigo-500"
+        hover:cursor-pointer hover:bg-indigo-100 hover:text-indigo-500"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +60,7 @@ export default async function Order({ params, searchParams }) {
                 "order-id": response.order_data[4].value,
               },
             }}
-            className="relative cursor-pointer bg-purple-100 px-2 py-0.5 
+            className="relative cursor-pointer bg-indigo-100 px-2 py-0.5 
           mb-1 text-sm font-semibold text-indigo-500 rounded-sm hover:bg-purple-200"
           >
             Submit Order
