@@ -1,8 +1,7 @@
-import prisma from "../lib/db";
 
 export const color = (status) => {
-  if (status === "Stand By") {
-    return "text-indigo-500";
+  if (status === "In Transport") {
+    return "text-sky-500";
   } else if (status === "Stable") {
     return "text-green-500";
   } else {
@@ -55,14 +54,6 @@ export const numberWithCommas = (value) => {
   return value;
 };
 
-export const getTripId = async (vehicleId, trip_date) => {
-  const fetchTripId = await prisma.trip.findUnique({
-    where: { vehicle_id: vehicleId, trip_date: trip_date },
-    select: { id: true },
-  });
-
-  return fetchTripId;
-};
 
 export const convertBigIntId = (jsonDetails) => {
   const data = jsonDetails.map((details) => {

@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useForm, Controller } from "react-hook-form";
 import { numberWithCommas } from "../utils/helper";
 import Image from "next/image";
+import AuthContext from "../context/AuthContext";
+import EnvAPI from "@/lib/EnvAPI";
 
 export default function SubmitOrder({
   tripTypeStatus,
@@ -18,13 +20,23 @@ export default function SubmitOrder({
   const [freightAmount, setFreightAmount] = useState(0);
   const [driverAmount, setDriverAmount] = useState(0);
 
+  const { AuthTokens, logOutUser } = useContext(AuthContext);
+
   const tripType = tripTypeStatus;
   const router = useRouter();
+  const url = EnvAPI();
 
   useEffect(() => {
     const getOrderQuantityData = async () => {
       const getOrderQuantity = await fetch(
-        `/api/submit-order-data?key=${orderId}`
+        `${url}/api/submit-order-data?key=${orderId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + AuthTokens.access,
+          },
+        }
       );
       const orderQuantity = await getOrderQuantity.json();
 
@@ -70,15 +82,22 @@ export default function SubmitOrder({
   };
 
   const updateOrder = async (order) => {
-    const updateOrderDetails = await fetch(`/api/submit-order-data`, {
+    const updateOrderDetails = await fetch(`${url}/api/submit-order-data`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + AuthTokens.access,
+      },
       body: JSON.stringify(order),
     });
 
-    const response = await updateOrderDetails.json();
-
-    return response;
+    if (updateOrderDetails.status === 200) {
+      const response = await updateOrderDetails.json();
+      return response;
+    } else {
+      logOutUser();
+      return null;
+    }
   };
 
   const onSubmit = (data) => {
@@ -120,7 +139,7 @@ export default function SubmitOrder({
           <div className="mb-4">
             <label
               htmlFor="loading"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
               Loading
             </label>
@@ -140,8 +159,8 @@ export default function SubmitOrder({
                   }}
                   placeholder="₹0.00"
                   className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
                     errors.loading ? "border-pink-500" : "border-neutral-300"
                   }`}
                 />
@@ -156,7 +175,7 @@ export default function SubmitOrder({
           <div className="mb-4">
             <label
               htmlFor="unloading"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
               Unloading
             </label>
@@ -176,8 +195,8 @@ export default function SubmitOrder({
                     handleTotalExpenses();
                   }}
                   className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
                     errors.unloading ? "border-pink-500" : "border-neutral-300"
                   }`}
                 />
@@ -194,7 +213,7 @@ export default function SubmitOrder({
           <div className="mb-4">
             <label
               htmlFor="tollGate"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
               Toll Gate
             </label>
@@ -214,8 +233,8 @@ export default function SubmitOrder({
                     handleTotalExpenses();
                   }}
                   className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
                     errors.tollGate ? "border-pink-500" : "border-neutral-300"
                   }`}
                 />
@@ -230,7 +249,7 @@ export default function SubmitOrder({
           <div className="mb-4">
             <label
               htmlFor="pclRto"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
               RTO & PC
             </label>
@@ -250,8 +269,8 @@ export default function SubmitOrder({
                     handleTotalExpenses();
                   }}
                   className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
                     errors.pclRto ? "border-pink-500" : "border-neutral-300"
                   }`}
                 />
@@ -268,7 +287,7 @@ export default function SubmitOrder({
         <div className="mb-4">
           <label
             htmlFor="totalExpenses"
-            className="block text-gray-700 font-semibold mb-2 md:text-lg"
+            className="block text-gray-700 font-semibold mb-2 md:text-md"
           >
             Total Expenses
           </label>
@@ -290,8 +309,8 @@ export default function SubmitOrder({
                   field.onChange(formattedValue);
                 }}
                 className="w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400"
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400"
               />
             )}
           />
@@ -301,7 +320,7 @@ export default function SubmitOrder({
           <div className="mb-4">
             <label
               htmlFor="freight"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
               Freight
             </label>
@@ -321,8 +340,8 @@ export default function SubmitOrder({
                     handleFreightAmount();
                   }}
                   className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
                     errors.freight ? "border-pink-500" : "border-neutral-300"
                   }`}
                 />
@@ -337,7 +356,7 @@ export default function SubmitOrder({
           <div className="mb-4">
             <label
               htmlFor="driverFreight"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
               Driver Freight
             </label>
@@ -357,8 +376,8 @@ export default function SubmitOrder({
                     handleDriverAmount();
                   }}
                   className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
                     errors.driverFreight
                       ? "border-pink-500"
                       : "border-neutral-300"
@@ -376,7 +395,7 @@ export default function SubmitOrder({
         <div>
           <button
             type="submit"
-            className="w-full text-white bg-indigo-500 hover:bg-indigo-600 
+            className="w-full text-white bg-purple-500 hover:bg-purple-600 
             font-semibold py-2 px-4 rounded"
           >
             Submit

@@ -1,23 +1,33 @@
 import React from "react";
 import Link from "next/link";
+import { cookies } from "next/headers";
 
 import SearchBar from "../../components/SearchBar";
 import Card from "../../components/Card";
 
-import EnvAPI from "@/app/lib/EnvAPI";
+import EnvAPI from "@/lib/EnvAPI";
 
 export default async function Search(props) {
+  const cookieStore = cookies();
+
   const envUrl = EnvAPI();
 
   const searchVehicle = await fetch(
-    `${envUrl}/api/search?search-string=${props.searchParams["lorry"]}`
+    `${envUrl}/api/search?search-string=${props.searchParams["lorry"]}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + cookieStore.get("django-auth-access").value,
+      },
+    }
   );
 
   const lorry_details = await searchVehicle.json();
 
   return (
     <>
-      <div className="py-4 bg-neutral-200 border-b-2 border-indigo-500 grid place-items-center sticky top-14 z-50">
+      <div className="py-4 bg-neutral-200 border-b-2 border-purple-500 grid place-items-center sticky top-14 z-50">
         <SearchBar />
       </div>
       {lorry_details.length > 0 ? (
@@ -32,8 +42,8 @@ export default async function Search(props) {
           <div className="flex items-center justify-center">
             <Link
               href="/vehicles"
-              className=" p-2 text-white bg-indigo-500 rounded-md
-        hover:cursor-pointer hover:bg-indigo-600 "
+              className=" p-2 text-white bg-purple-500 rounded-md
+        hover:cursor-pointer hover:bg-purple-600 "
             >
               Go to Home
             </Link>

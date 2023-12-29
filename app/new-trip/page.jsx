@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
+import Image from "next/image";
+import AuthContext from "../context/AuthContext";
+import EnvAPI from "@/lib/EnvAPI";
 
 export default function NewTrip() {
   const [vehicleData, setVehicleData] = useState(null);
@@ -15,6 +17,8 @@ export default function NewTrip() {
     { label: "One Way", value: "One Way" },
     { label: "Round Trip", value: "Round Trip" },
   ];
+
+  const { AuthTokens } = useContext(AuthContext);
 
   const {
     register,
@@ -27,8 +31,16 @@ export default function NewTrip() {
 
   const router = useRouter();
 
+  const url = EnvAPI();
+
   const fetchVehicleId = async () => {
-    const vehicleData = await fetch(`/api/create-trip`);
+    const vehicleData = await fetch(`${url}/api/create-trip`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + AuthTokens.access,
+      },
+    });
     const options = await vehicleData.json();
     setVehicleData(options);
   };
@@ -38,9 +50,12 @@ export default function NewTrip() {
   }, []);
 
   const insertTrip = async (data) => {
-    const AddTrip = await fetch(`/api/create-trip`, {
+    const AddTrip = await fetch(`${url}/api/create-trip`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + AuthTokens.access,
+      },
       body: JSON.stringify(data),
     });
     const response = await AddTrip.json();
@@ -48,12 +63,14 @@ export default function NewTrip() {
   };
 
   const gotToHome = (data) => {
+    console.log("go to home data", data);
     router.push(`/vehicles/${data.vehicle_id}/${data.id}/add-order`);
   };
 
   const onSubmit = (data) => {
     console.log("Data", data);
     const returnedTripData = insertTrip(data);
+    console.log("return trip", returnedTripData);
     setShow(true);
     reset(); // Reset form
     setTimeout(() => {
@@ -68,7 +85,7 @@ export default function NewTrip() {
       <Link
         href="/vehicles"
         className="flex items-center justify-start w-[70px] gap-1 p-1
-        hover:cursor-pointer hover:bg-indigo-100 hover:text-indigo-500 mb-2"
+        hover:cursor-pointer hover:bg-purple-100 hover:text-primary mb-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -87,8 +104,9 @@ export default function NewTrip() {
         <span>Back</span>
       </Link>
 
-      <div className="mb-4 border-b max-w-md mx-auto">
-        <p className="text-center text-lg font-semibold pb-1">New Trip</p>
+      <div className="mb-4 border-b border-neutral-300 max-w-md mx-auto">
+        <p className="text-left text-lg font-semibold pb-1">New Trip</p>
+        <p className="font-semibold text-gray-500">Creating a new trip</p>
       </div>
 
       {show && (
@@ -109,7 +127,7 @@ export default function NewTrip() {
         <div className="mb-4">
           <label
             htmlFor="date"
-            className="block text-gray-700 font-semibold mb-2 md:text-lg"
+            className="block text-gray-700 font-semibold mb-2 md:text-md"
           >
             Date
           </label>
@@ -119,8 +137,8 @@ export default function NewTrip() {
             defaultValue=""
             {...register("date", { required: true })}
             className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-            leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-            focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+            leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+            focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
               errors.date ? "border-pink-500" : "border-neutral-300"
             }`}
           />
@@ -133,7 +151,7 @@ export default function NewTrip() {
         <div className="mb-4">
           <label
             htmlFor="tripType"
-            className="block text-gray-700 font-semibold mb-2 md:text-lg"
+            className="block text-gray-700 font-semibold mb-2 md:text-md"
           >
             Trip Type
           </label>
@@ -170,7 +188,7 @@ export default function NewTrip() {
         <div className="mb-4">
           <label
             htmlFor="Trips"
-            className="block text-gray-700 font-semibold mb-2 md:text-lg"
+            className="block text-gray-700 font-semibold mb-2 md:text-md"
           >
             No of Trips
           </label>
@@ -181,8 +199,8 @@ export default function NewTrip() {
             {...register("Trips", { required: true })}
             placeholder="Enter number"
             className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-              leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-              focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+              leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+              focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
                 errors.Trips ? "border-pink-500" : "border-neutral-300"
               }`}
           />
@@ -196,7 +214,7 @@ export default function NewTrip() {
         <div className="mb-4">
           <label
             htmlFor="vehicle"
-            className="block text-gray-700 font-semibold mb-2 md:text-lg"
+            className="block text-gray-700 font-semibold mb-2 md:text-md"
           >
             Vehicle
           </label>
@@ -218,7 +236,7 @@ export default function NewTrip() {
                     border: errors.selectedVehicle
                       ? "1px solid #ec4899"
                       : state.isFocused
-                      ? "2px solid #6366f1"
+                      ? "2px solid #a855f7"
                       : "1px solid #d1d5db",
                   }),
                 }}
@@ -234,7 +252,7 @@ export default function NewTrip() {
         <div className="mb-4">
           <label
             htmlFor="fromLocation"
-            className="block text-gray-700 font-semibold mb-2 md:text-lg"
+            className="block text-gray-700 font-semibold mb-2 md:text-md"
           >
             Owner Name
           </label>
@@ -245,8 +263,8 @@ export default function NewTrip() {
             {...register("ownerName", { required: true })}
             placeholder="Owner"
             className={`w-full px-3 py-2 border rounded-md text-gray-700 
-            leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-            focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+            leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+            focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
               errors.ownerName ? "border-pink-500" : "border-neutral-300"
             }`}
           />
@@ -258,7 +276,7 @@ export default function NewTrip() {
         </div>
         <button
           type="submit"
-          className="w-full mt-4 text-white bg-indigo-500 hover:bg-indigo-600 
+          className="w-full mt-4 text-white bg-purple-500 hover:bg-purple-600 
             font-semibold py-2 px-4 rounded"
         >
           Submit

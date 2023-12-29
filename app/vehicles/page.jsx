@@ -3,7 +3,9 @@ import React from "react";
 import SearchBar from "../components/SearchBar";
 import Card from "../components/Card";
 import Addbutton from "../components/AddButton";
-import EnvAPI from "../lib/EnvAPI";
+import EnvAPI from "../../lib/EnvAPI";
+
+import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
@@ -12,12 +14,27 @@ export default async function Vehicle() {
 
   const envUrl = EnvAPI();
 
-  const vehicles = await fetch(`${envUrl}/api/all-vehicles`);
-  const getVehicles = await vehicles.json();
+  const cookieStore = cookies();
+  console.log("access token", cookieStore.get("django-auth-access").value);
+
+  let getVehicles;
+
+  try {
+    const vehicles = await fetch(`${envUrl}/api/all-vehicles`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + cookieStore.get("django-auth-access").value,
+      },
+    });
+    getVehicles = await vehicles.json();
+  } catch (e) {
+    console.log(e);
+  }
 
   return (
     <>
-      <div className="py-4 bg-neutral-200 border-b-2 border-indigo-500 grid place-items-center sticky top-14 z-50">
+      <div className="py-4 bg-card border-b border-neutral-300 grid place-items-center sticky top-14 z-50">
         <SearchBar />
       </div>
       <div className="flex items-center justify-center overflow-y-auto">

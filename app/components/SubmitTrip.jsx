@@ -1,13 +1,17 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { useForm, Controller } from "react-hook-form";
+import AuthContext from "../context/AuthContext";
+import EnvAPI from "@/lib/EnvAPI";
 
 export default function SubmitTrip({ vehicleId, tripId }) {
   const [show, setShow] = useState(false);
+
+  const { AuthTokens, logOutUser } = useContext(AuthContext);
 
   const router = useRouter();
 
@@ -20,6 +24,8 @@ export default function SubmitTrip({ vehicleId, tripId }) {
     formState: { errors },
     setValue,
   } = useForm();
+
+  const url = EnvAPI();
 
   const handleMileage = () => {
     const distance = watch("tripDistance");
@@ -39,20 +45,29 @@ export default function SubmitTrip({ vehicleId, tripId }) {
   };
 
   const updateTripDetails = async (data) => {
-    const updateData = await fetch(`/api/submit-trip`, {
+    const updateData = await fetch(`${url}/api/submit-trip`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + AuthTokens.access,
+      },
       body: JSON.stringify({ tripId: tripId, trip_data: data }),
     });
-    const response = await updateData.json();
-    return response;
+
+    if (updateData.status === 200) {
+      const response = await updateData.json();
+      return response;
+    } else {
+      logOutUser();
+      return null;
+    }
   };
 
   const onSubmit = (data) => {
     console.log("Data", data);
     const response = updateTripDetails(data);
     response.then((message) => {
-      if (message.message === "inserted Succussfully") {
+      if (message.message === "Trip submitted successfully") {
         setShow(true);
         reset(); // Reset form
         setTimeout(() => {
@@ -81,7 +96,7 @@ export default function SubmitTrip({ vehicleId, tripId }) {
           <div className="mb-4">
             <label
               htmlFor="reading"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
               Reading <span className="text-gray-500 text-sm">in KMs</span>
             </label>
@@ -97,8 +112,8 @@ export default function SubmitTrip({ vehicleId, tripId }) {
                   id="reading"
                   placeholder="0.00"
                   className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
                     errors.reading ? "border-pink-500" : "border-neutral-300"
                   }`}
                 />
@@ -113,7 +128,7 @@ export default function SubmitTrip({ vehicleId, tripId }) {
           <div className="mb-4">
             <label
               htmlFor="tripDistance"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
               Trip Distance
               <span className="text-gray-500 text-sm"> in KMs</span>
@@ -134,8 +149,8 @@ export default function SubmitTrip({ vehicleId, tripId }) {
                     handleMileage();
                   }}
                   className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
                     errors.tripDistance
                       ? "border-pink-500"
                       : "border-neutral-300"
@@ -154,7 +169,7 @@ export default function SubmitTrip({ vehicleId, tripId }) {
           <div className="mb-4">
             <label
               htmlFor="dieselLitres"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
               Diesel <span className="text-gray-500 text-sm">in litres</span>
             </label>
@@ -176,8 +191,8 @@ export default function SubmitTrip({ vehicleId, tripId }) {
                     handleAddBlue();
                   }}
                   className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
                     errors.dieselLitres
                       ? "border-pink-500"
                       : "border-neutral-300"
@@ -194,7 +209,7 @@ export default function SubmitTrip({ vehicleId, tripId }) {
           <div className="mb-4">
             <label
               htmlFor="dieselPerLitre"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
               Diesel{" "}
               <span className="text-gray-500 text-sm">
@@ -217,8 +232,8 @@ export default function SubmitTrip({ vehicleId, tripId }) {
                     handleDieselPerLitre();
                   }}
                   className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
                     errors.dieselPerLitre
                       ? "border-pink-500"
                       : "border-neutral-300"
@@ -237,7 +252,7 @@ export default function SubmitTrip({ vehicleId, tripId }) {
           <div className="mb-4">
             <label
               htmlFor="dieselAmount"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
               Diesel Amount
             </label>
@@ -254,8 +269,8 @@ export default function SubmitTrip({ vehicleId, tripId }) {
                   readOnly
                   placeholder="₹0.00"
                   className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
                     errors.dieselAmount
                       ? "border-pink-500"
                       : "border-neutral-300"
@@ -273,7 +288,7 @@ export default function SubmitTrip({ vehicleId, tripId }) {
           <div className="mb-4">
             <label
               htmlFor="mileage"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
               Mileage
             </label>
@@ -281,6 +296,7 @@ export default function SubmitTrip({ vehicleId, tripId }) {
               name="mileage"
               control={control}
               defaultValue=""
+              rules={{ required: "This field is required" }}
               render={({ field }) => (
                 <input
                   {...field}
@@ -289,58 +305,31 @@ export default function SubmitTrip({ vehicleId, tripId }) {
                   id="mileage"
                   placeholder="0.00"
                   step="0.00"
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400"
+                  className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
+                    errors.mileage ? "border-pink-500" : "border-neutral-300"
+                  }`}
                 />
               )}
             />
+            {errors.mileage && (
+              <span className="text-sm text-pink-500">
+                Reading & Trip Distance are required
+              </span>
+            )}
           </div>
         </div>
-        {/* <div className="flex gap-3"> */}
-        <div className="mb-4">
-          <label
-            htmlFor="adBlue"
-            className="block text-gray-700 font-semibold mb-2 md:text-lg"
-          >
-            AdBlue
-          </label>
-          <Controller
-            name="adBlue"
-            control={control}
-            defaultValue=""
-            rules={{ required: "This field is required" }}
-            render={({ field }) => (
-              <input
-                {...field}
-                type="number"
-                id="adBlue"
-                readOnly
-                placeholder="₹0.00"
-                className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                  focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
-                    errors.adBlue ? "border-pink-500" : "border-neutral-300"
-                  }`}
-              />
-            )}
-          />
-          {errors.adBlue && (
-            <span className="text-sm text-pink-500">
-              This field is required
-            </span>
-          )}
-        </div>
-        {/* 
+        <div className="flex gap-3">
           <div className="mb-4">
             <label
-              htmlFor="balanceAmount"
-              className="block text-gray-700 font-semibold mb-2 md:text-lg"
+              htmlFor="adBlue"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
             >
-              Balance Amount
+              AdBlue
             </label>
             <Controller
-              name="balanceAmount"
+              name="adBlue"
               control={control}
               defaultValue=""
               rules={{ required: "This field is required" }}
@@ -348,33 +337,81 @@ export default function SubmitTrip({ vehicleId, tripId }) {
                 <input
                   {...field}
                   type="number"
-                  id="balanceAmount"
-                  placeholder="000"
-                  onChange={(e) => {
-                    field.onChange(e);
-                    handleDriverAmount();
-                  }}
+                  id="adBlue"
+                  readOnly
+                  placeholder="₹0.00"
                   className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                    leading-tight focus:shadow-outline drop-shadow-sm focus:border-indigo-500 
-                    focus:outline-none focus:ring-1 focus:ring-indigo-500 hover:border-neutral-400 ${
-                      errors.balanceAmount
+                  leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                  focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
+                    errors.adBlue ? "border-pink-500" : "border-neutral-300"
+                  }`}
+                />
+              )}
+            />
+            {errors.adBlue && (
+              <span className="text-sm text-pink-500">
+                This field is required
+              </span>
+            )}
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="maintanance"
+              className="block text-gray-700 font-semibold mb-2 md:text-md"
+            >
+              Maintanance
+            </label>
+            <Controller
+              name="maintanance"
+              control={control}
+              defaultValue={0}
+              rules={{ required: "This field is required" }}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type="number"
+                  id="maintanance"
+                  placeholder="0"
+                  className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
+                    leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
+                    focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
+                      errors.maintanance
                         ? "border-pink-500"
                         : "border-neutral-300"
                     }`}
                 />
               )}
             />
-            {errors.balanceAmount && (
+            {errors.maintanance && (
               <span className="text-sm text-pink-500">
                 This field is required
               </span>
             )}
           </div>
-        </div> */}
+        </div>
+        <div className="mb-8">
+          <label
+            htmlFor="comments"
+            className="block text-gray-700 font-semibold mb-2 md:text-md"
+          >
+            Comments
+          </label>
+          <textarea
+            id="comments"
+            rows={6}
+            defaultValue=""
+            {...register("comment")}
+            placeholder="Comments"
+            className="w-full px-5 py-3 border border-neutral-300 rounded-md text-gray-700 leading-tight 
+            focus:shadow-outline focus:border-purple-500 
+            focus:outline-none focus:ring-1 focus:ring-purple-500 drop-shadow-sm hover:border-neutral-400"
+          />
+        </div>
         <div>
           <button
             type="submit"
-            className="w-full text-white bg-indigo-500 hover:bg-indigo-600 
+            className="w-full text-white bg-purple-500 hover:bg-purple-600 
             font-semibold py-2 px-4 rounded"
           >
             Submit
