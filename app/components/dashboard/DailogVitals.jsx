@@ -8,9 +8,6 @@ import {
 } from "@/app/components/ui/dialog";
 import { Button } from "@/app/components/ui/button";
 import CardIcon from "./CardIcon";
-import TableVitals from "./TableVitals";
-import { totalExpenses, allTripsOverview } from "@/app/utils/DataFormat";
-import TableOverview from "./TableOverview";
 
 export default function DailogVitals({ data, dialogfor }) {
   return (
@@ -35,11 +32,11 @@ export default function DailogVitals({ data, dialogfor }) {
             A list of all the Total expenses.
           </DialogDescription> */}
         </DialogHeader>
-        {dialogfor == "Vitals" ? (
+        {/* {dialogfor == "Vitals" ? (
           <TableVitals expenses={totalExpenses} />
         ) : (
           <TableOverview allTrips={allTripsOverview} />
-        )}
+        )} */}
         vehicles
       </DialogContent>
     </Dialog>
