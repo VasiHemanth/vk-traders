@@ -395,7 +395,7 @@ export default function SubmitOrder({
         <div>
           <button
             type="submit"
-            className="w-full text-white bg-purple-500 hover:bg-purple-600 
+            className="w-full text-white bg-primary hover:bg-purple-600 
             font-semibold py-2 px-4 rounded"
           >
             Submit

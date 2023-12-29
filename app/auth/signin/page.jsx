@@ -8,6 +8,9 @@ import { useForm, Controller } from "react-hook-form";
 import Cookies from "universal-cookie";
 import AuthContext from "@/app/context/AuthContext";
 import ButtonLoader from "@/app/components/ButtonLoader";
+import { Button } from "@/app/components/ui/button";
+import { Input } from "@/app/components/ui/input";
+import { Label } from "@/app/components/ui/label";
 
 export default function Login() {
   const [login, setLogin] = useState({
@@ -55,41 +58,44 @@ export default function Login() {
       </div>
 
       <div className="flex max-lg:items-center max-lg:justify-center h-screen">
-        <div className="relative lg:w-3/5 xl:w-1/2 hidden lg:block">
-          <Image src="/Login Hero.png" alt="login hero" fill={true} />
+        <div className="relative lg:w-1/2 xl:w-[45%] hidden lg:block bg-primary">
+          <Image
+            src="/Login Hero - VK Traders.png"
+            alt="login hero"
+            fill={true}
+          />
         </div>
         <div className="w-4/5 lg:w-1/2">
           <div className="flex items-center justify-center h-full">
             <div className="h-3/4 w-full sm:w-4/5 md:w-1/2 lg:w-3/5 xl:w-1/2">
               <div className="flex-col justify-center items-center">
                 <div className="mx-auto">
-                  <p
+                  <div className="relative w-20 h-14">
+                    <Image src="/VkTraders.png" alt="logo" fill={true} />
+                  </div>
+                  {/* <p
                     className="md:text-lg lg:text-xl border rounded text-primary
                  font-semibold bg-card inline-block p-2"
                   >
                     VK <span className="tracking-wide">Traders</span>
-                  </p>
-                  <p className="text-lg xl:text-xl font-bold py-5">
+                  </p> */}
+                  <p className="text-lg xl:text-xl font-bold pt-3 pb-5">
                     Login to your Account
                   </p>
                   <form onSubmit={handleSubmit(onSubmit)} className="py-3">
                     <div className="mb-4">
-                      <label className="block text-gray-700 md:text-sm lg:text-base font-medium mb-2">
-                        Email
-                      </label>
-                      <input
+                      <Label className="block text-gray-700 md:text-sm lg:text-base font-medium mb-2">
+                        Username
+                      </Label>
+                      <Input
                         id="username"
                         type="username"
                         defaultValue=""
                         {...register("username", { required: true })}
                         placeholder="Username"
-                        className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                      leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
-                      focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
-                        errors.username
-                          ? "border-pink-500"
-                          : "border-neutral-300"
-                      }`}
+                        className={`w-full px-3 py-2  ${
+                          errors.username ? "border-pink-500" : ""
+                        }`}
                       />
                       {errors.username && (
                         <span className="text-sm text-pink-500">
@@ -98,23 +104,20 @@ export default function Login() {
                       )}
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-700 md:text-sm lg:text-base font-medium mb-2">
+                      <Label className="block text-gray-700 md:text-sm lg:text-base font-medium mb-2">
                         Password
-                      </label>
+                      </Label>
                       <div className="relative">
-                        <input
+                        <Input
                           id="password"
                           type={login.passwordVisible ? "text" : "password"}
                           placeholder="Password"
                           defaultValue=""
                           {...register("password", { required: true })}
-                          className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-                      leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
-                      focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
-                        errors.password
-                          ? "border-pink-500"
-                          : "border-neutral-300"
-                      }`}
+                          className={`w-full px-3 py-2  text-gray-700 
+                          leading-tight focus:ring-1 ${
+                            errors.password ? "border-pink-500" : ""
+                          }`}
                           onFocus={() =>
                             setLogin({ ...login, isFocused: true })
                           }
@@ -154,9 +157,9 @@ export default function Login() {
                         )}
                       </div>
                     </div>
-                    <button
+                    <Button
                       type="submit"
-                      className="w-full bg-purple-500 hover:bg-purple-600 text-white font-medium py-2 px-4 rounded"
+                      className="w-full font-medium py-2 px-4"
                     >
                       {login.loading ? (
                         <div className="flex items-center justify-center">
@@ -166,7 +169,7 @@ export default function Login() {
                       ) : (
                         <>Sign in</>
                       )}
-                    </button>
+                    </Button>
                     <p className="my-3 text-sm text-neutral-500 text-center hover:underline hover:cursor-pointer">
                       Forgot Password
                     </p>

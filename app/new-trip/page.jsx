@@ -9,6 +9,8 @@ import { useForm, Controller } from "react-hook-form";
 import Image from "next/image";
 import AuthContext from "../context/AuthContext";
 import EnvAPI from "@/lib/EnvAPI";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
 
 export default function NewTrip() {
   const [vehicleData, setVehicleData] = useState(null);
@@ -85,7 +87,7 @@ export default function NewTrip() {
       <Link
         href="/vehicles"
         className="flex items-center justify-start w-[70px] gap-1 p-1
-        hover:cursor-pointer hover:bg-purple-100 hover:text-primary mb-2"
+        hover:cursor-pointer hover:text-primary hover:bg-primary-foreground rounded-md mb-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -131,15 +133,13 @@ export default function NewTrip() {
           >
             Date
           </label>
-          <input
+          <Input
             type="datetime-local"
             id="date"
             defaultValue=""
             {...register("date", { required: true })}
-            className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-            leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
-            focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
-              errors.date ? "border-pink-500" : "border-neutral-300"
+            className={`w-full px-3 py-2 ${
+              errors.date ? "border-pink-500" : ""
             }`}
           />
           {errors.date && (
@@ -192,7 +192,7 @@ export default function NewTrip() {
           >
             No of Trips
           </label>
-          <input
+          <Input
             type="number"
             id="Trips"
             defaultValue={1}
@@ -256,7 +256,7 @@ export default function NewTrip() {
           >
             Owner Name
           </label>
-          <input
+          <Input
             type="text"
             id="ownerName"
             defaultValue=""
@@ -274,13 +274,9 @@ export default function NewTrip() {
             </span>
           )}
         </div>
-        <button
-          type="submit"
-          className="w-full mt-4 text-white bg-purple-500 hover:bg-purple-600 
-            font-semibold py-2 px-4 rounded"
-        >
+        <Button type="submit" className="w-full mt-4 py-2 px-4 ">
           Submit
-        </button>
+        </Button>
       </form>
     </div>
   );

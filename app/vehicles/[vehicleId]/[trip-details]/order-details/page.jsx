@@ -32,7 +32,7 @@ export default async function Order({ params, searchParams }) {
         <Link
           href={`/vehicles/${vehicleId}/${tripDetails}`}
           className="flex items-center justify-start w-[72px] gap-1 p-1
-        hover:cursor-pointer hover:bg-purple-100 hover:text-primary"
+        hover:cursor-pointer hover:text-primary hover:bg-primary-foreground rounded-md"
           prefetch={false}
         >
           <svg

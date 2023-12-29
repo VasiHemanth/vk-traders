@@ -15,6 +15,7 @@ import {
 import { Avatar, AvatarFallback } from "@/app/components/ui/avatar";
 import AuthContext from "../context/AuthContext";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function Navbar() {
   const { user, logOutUser } = useContext(AuthContext);
@@ -30,11 +31,13 @@ export default function Navbar() {
       >
         <div className="flex items-center space-x-4 lg:space-x-6 text-foreground">
           <Link
-            className="text-primary bg-white p-2 text-lg rounded 
+            className="text-primary bg-white text-lg rounded 
           font-sans font-semibold cursor-pointer hover:bg-slate-50 md:text-xl"
             href="/vehicles"
           >
-            VK <span className="tracking-wide">Traders</span>
+            <div className="relative w-24 h-11">
+              <Image src="/VkTraders.png" alt="logo" fill={true} />
+            </div>
           </Link>
           {pathname.includes("/application") && (
             <Link href="/vehicles">Vehicles</Link>

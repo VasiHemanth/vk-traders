@@ -42,7 +42,7 @@ export default async function Search(props) {
           <div className="flex items-center justify-center">
             <Link
               href="/vehicles"
-              className=" p-2 text-white bg-purple-500 rounded-md
+              className=" p-2 text-white bg-primary rounded-md
         hover:cursor-pointer hover:bg-purple-600 "
             >
               Go to Home

@@ -5,6 +5,7 @@ import {
   formatDateToDDMMYYYY,
   formatISODatetoDDMMYYY,
 } from "../utils/helper";
+import { Button } from "./ui/button";
 
 export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
   console.log("Trips", trips);
@@ -14,7 +15,7 @@ export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
       <Link
         href="/vehicles"
         className="flex items-center justify-start w-[70px] gap-1 p-1 mb-2 sm:mb-0
-        hover:cursor-pointer hover:bg-indigo-100 hover:text-indigo-500"
+        hover:cursor-pointer hover:text-primary hover:bg-primary-foreground rounded-md"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -82,20 +83,20 @@ export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
         {trips.length > 0 ? (
           <div className="mt-2 grid grid-cols-3 gap-3 overflow-y-auto">
             {trips.map((data, index) => (
-              <Link
-                href={{
-                  pathname: `/vehicles/${vehicleId}/${data.id}`,
-                }}
-                key={index}
-                className={`py-1 border-2 ${
-                  data.no_of_trips > 1
-                    ? "border-sky-600 text-sky-600"
-                    : "border-gray-600 text-gray-600"
-                }  text-center rounded-md 
-                font-semibold cursor-pointer hover:border-indigo-500 hover:text-indigo-500`}
+              <Button
+                variant="outline"
+                className="hover:text-primary hover:border-primary border-2"
               >
-                {formatDateToDDMMYYYY(data["trip_date"].split("T")[0])}
-              </Link>
+                <Link
+                  href={{
+                    pathname: `/vehicles/${vehicleId}/${data.id}`,
+                  }}
+                  key={index}
+                  className={`py-1 text-center font-semibold`}
+                >
+                  {formatDateToDDMMYYYY(data["trip_date"].split("T")[0])}
+                </Link>
+              </Button>
             ))}
           </div>
         ) : (

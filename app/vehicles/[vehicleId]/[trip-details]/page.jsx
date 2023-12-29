@@ -5,6 +5,7 @@ import Link from "next/link";
 import { formatDateAndTime, formatDateToDDMMYYYY } from "@/app/utils/helper";
 import EnvAPI from "@/lib/EnvAPI";
 import AuthContext from "@/app/context/AuthContext";
+import { Button } from "@/app/components/ui/button";
 
 export default function TripDetails({ params }) {
   const vehicleId = params["vehicleId"];
@@ -47,7 +48,7 @@ export default function TripDetails({ params }) {
       <Link
         href={`/vehicles/${vehicleId}`}
         className="flex items-center justify-start w-[72px] gap-1 p-1
-        hover:cursor-pointer hover:bg-purple-100 hover:text-primary"
+        hover:cursor-pointer  hover:text-primary hover:bg-primary-foreground rounded-md"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -117,8 +118,8 @@ export default function TripDetails({ params }) {
                   href={{
                     pathname: `/vehicles/${vehicleId}/${tripDetails}/add-order`,
                   }}
-                  className="relative cursor-pointer bg-purple-100 px-2 py-0.5 
-          mb-1 text-sm font-semibold text-primary rounded-sm hover:bg-purple-200"
+                  className="relative cursor-pointer px-2 py-0.5 
+          mb-1 text-sm font-semibold text-primary rounded-sm bg-primary-foreground hover:bg-primary hover:text-white"
                 >
                   Add Order
                 </Link>
@@ -128,20 +129,24 @@ export default function TripDetails({ params }) {
             <div className="mt-2 grid grid-cols-3 gap-3 overflow-y-auto">
               {response &&
                 response.orders.map((order) => (
-                  <Link
-                    key={order.id}
-                    href={{
-                      pathname: `/vehicles/${vehicleId}/${tripDetails}/order-details`,
-                      query: {
-                        key: order.id,
-                        "trip-type": response.trip_details.trip_type,
-                      },
-                    }}
-                    className="py-1 border-2 border-gray-600 text-gray-600 text-center rounded-md 
-                font-semibold cursor-pointer hover:border-purple-500 hover:text-primary"
+                  <Button
+                    variant="outline"
+                    className="hover:text-primary hover:border-primary border-2"
                   >
-                    {formatDateToDDMMYYYY(order.date.split("T")[0])}
-                  </Link>
+                    <Link
+                      key={order.id}
+                      href={{
+                        pathname: `/vehicles/${vehicleId}/${tripDetails}/order-details`,
+                        query: {
+                          key: order.id,
+                          "trip-type": response.trip_details.trip_type,
+                        },
+                      }}
+                      className="py-1 cursor-pointer"
+                    >
+                      {formatDateToDDMMYYYY(order.date.split("T")[0])}
+                    </Link>
+                  </Button>
                 ))}
             </div>
           ) : (

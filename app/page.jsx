@@ -15,7 +15,7 @@ export default function Home() {
         {/* <OpenApp /> */}
         <Link
           href="/auth/signin"
-          className="bg-purple-500 p-2 rounded-md text-white hover:bg-purple-600"
+          className="bg-primary p-2 rounded-md text-white hover:bg-purple-600"
         >
           Open App
         </Link>

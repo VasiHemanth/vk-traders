@@ -7,6 +7,8 @@ import { useContext, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import AuthContext from "../context/AuthContext";
 import EnvAPI from "@/lib/EnvAPI";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 export default function CreateOrder({ vehicleId, tripId }) {
   const router = useRouter();
@@ -69,7 +71,7 @@ export default function CreateOrder({ vehicleId, tripId }) {
           pathname: `/vehicles/${vehicleId}/${tripId}`,
         }}
         className="flex items-center justify-start w-[70px] gap-1 p-1
-        hover:cursor-pointer hover:bg-purple-100 hover:text-primary mb-2"
+        hover:cursor-pointer hover:text-primary hover:bg-primary-foreground rounded-md mb-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +117,7 @@ export default function CreateOrder({ vehicleId, tripId }) {
           >
             Date
           </label>
-          <input
+          <Input
             type="datetime-local"
             id="date"
             defaultValue=""
@@ -140,7 +142,7 @@ export default function CreateOrder({ vehicleId, tripId }) {
             >
               Grade
             </label>
-            <input
+            <Input
               type="text"
               id="grade"
               defaultValue=""
@@ -165,7 +167,7 @@ export default function CreateOrder({ vehicleId, tripId }) {
             >
               Quantity
             </label>
-            <input
+            <Input
               type="number"
               step="0.01"
               id="quantity"
@@ -192,7 +194,7 @@ export default function CreateOrder({ vehicleId, tripId }) {
           >
             From
           </label>
-          <input
+          <Input
             type="text"
             id="fromLocation"
             defaultValue=""
@@ -217,7 +219,7 @@ export default function CreateOrder({ vehicleId, tripId }) {
           >
             To
           </label>
-          <input
+          <Input
             type="text"
             id="toLocation"
             defaultValue=""
@@ -242,7 +244,7 @@ export default function CreateOrder({ vehicleId, tripId }) {
           >
             Shipment / Delivery Number
           </label>
-          <input
+          <Input
             type="text"
             id="shipmentNumber"
             defaultValue=""
@@ -268,7 +270,7 @@ export default function CreateOrder({ vehicleId, tripId }) {
             >
               Party Name
             </label>
-            <input
+            <Input
               type="text"
               id="partyName"
               defaultValue=""
@@ -293,7 +295,7 @@ export default function CreateOrder({ vehicleId, tripId }) {
             >
               Advance
             </label>
-            <input
+            <Input
               type="number"
               id="advance"
               defaultValue=""
@@ -332,13 +334,9 @@ export default function CreateOrder({ vehicleId, tripId }) {
           />
         </div>
         <div>
-          <button
-            type="submit"
-            className="w-full text-white bg-purple-500 hover:bg-purple-600 
-            font-semibold py-2 px-4 rounded"
-          >
+          <Button type="submit" className="w-full py-2 px-4 ">
             Submit
-          </button>
+          </Button>
         </div>
       </form>
     </div>
