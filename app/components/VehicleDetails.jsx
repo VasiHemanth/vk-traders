@@ -85,13 +85,13 @@ export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
             {trips.map((data, index) => (
               <Button
                 variant="outline"
+                key={index}
                 className="hover:text-primary hover:border-primary border-2"
               >
                 <Link
                   href={{
                     pathname: `/vehicles/${vehicleId}/${data.id}`,
                   }}
-                  key={index}
                   className={`py-1 text-center font-semibold`}
                 >
                   {formatDateToDDMMYYYY(data["trip_date"].split("T")[0])}

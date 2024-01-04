@@ -131,10 +131,10 @@ export default function TripDetails({ params }) {
                 response.orders.map((order) => (
                   <Button
                     variant="outline"
+                    key={order.id}
                     className="hover:text-primary hover:border-primary border-2"
                   >
                     <Link
-                      key={order.id}
                       href={{
                         pathname: `/vehicles/${vehicleId}/${tripDetails}/order-details`,
                         query: {
