@@ -31,7 +31,7 @@ export default function CardRecent({ recentData }) {
               {data.from} - {data.to}
             </div>
             <p className="text-xs text-muted-foreground">
-              {data.order_date.split("T")[0]} | Frieght{" "}
+              {data.order_date.split("T")[0]} | FA{" "}
               {numberWithCommas(data.frieght)} | Qty {data.quantity}
             </p>
           </div>

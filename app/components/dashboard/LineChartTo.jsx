@@ -13,8 +13,8 @@ const LineChartTo = () => {
         label: "Quantity",
         data: [390, 410, 397, 500, 480, 485],
         fill: true,
-        backgroundColor: "rgba(0,71,171, 0.2)",
-        borderColor: "rgba(0,71,171,1)",
+        backgroundColor: "rgb(25,72,122, 0.2)",
+        borderColor: "rgba(25,72,122,1)",
       },
     ],
   };

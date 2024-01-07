@@ -8,8 +8,6 @@ import {
 import { Button } from "./ui/button";
 
 export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
-  console.log("Trips", trips);
-
   return (
     <div className="m-4 sm:m-8 w-full h-screen">
       <Link

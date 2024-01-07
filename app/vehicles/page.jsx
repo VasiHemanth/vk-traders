@@ -15,7 +15,18 @@ export default async function Vehicle() {
   const envUrl = EnvAPI();
 
   const cookieStore = cookies();
-  console.log("access token", cookieStore.get("django-auth-access").value);
+  // console.log("access token", cookieStore.get("django-auth-access").value);
+
+  const accessToken =
+    cookieStore.get("django-auth-access") != undefined
+      ? cookieStore.get("django-auth-access").value
+      : null;
+
+  // if (accessToken != null) {
+  //   console.log("cool");
+  // } else {
+  //   throw new Error("Go to login page");
+  // }
 
   let getVehicles;
 

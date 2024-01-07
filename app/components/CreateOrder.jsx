@@ -53,7 +53,6 @@ export default function CreateOrder({ vehicleId, tripId }) {
   };
 
   const onSubmit = (data) => {
-    console.log("Data", data);
     const orderResponse = insertOrder(data);
     setShow(true);
     reset(); // Reset form

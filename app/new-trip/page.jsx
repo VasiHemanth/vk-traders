@@ -65,14 +65,11 @@ export default function NewTrip() {
   };
 
   const gotToHome = (data) => {
-    console.log("go to home data", data);
     router.push(`/vehicles/${data.vehicle_id}/${data.id}/add-order`);
   };
 
   const onSubmit = (data) => {
-    console.log("Data", data);
     const returnedTripData = insertTrip(data);
-    console.log("return trip", returnedTripData);
     setShow(true);
     reset(); // Reset form
     setTimeout(() => {
@@ -83,7 +80,7 @@ export default function NewTrip() {
   };
 
   return (
-    <div className="m-4 sm:m-8 w-full">
+    <div className="m-4 sm:m-8">
       <Link
         href="/vehicles"
         className="flex items-center justify-start w-[70px] gap-1 p-1
@@ -198,11 +195,8 @@ export default function NewTrip() {
             defaultValue={1}
             {...register("Trips", { required: true })}
             placeholder="Enter number"
-            className={`w-full px-3 py-2 border border-neutral-300 rounded-md text-gray-700 
-              leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
-              focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
-                errors.Trips ? "border-pink-500" : "border-neutral-300"
-              }`}
+            className={`w-full px-3 py-2 rounded-md text-gray-700 
+             ${errors.Trips ? "border-pink-500" : ""}`}
           />
           {errors.Trips && (
             <span className="text-sm text-pink-500">
@@ -262,10 +256,8 @@ export default function NewTrip() {
             defaultValue=""
             {...register("ownerName", { required: true })}
             placeholder="Owner"
-            className={`w-full px-3 py-2 border rounded-md text-gray-700 
-            leading-tight focus:shadow-outline drop-shadow-sm focus:border-purple-500 
-            focus:outline-none focus:ring-1 focus:ring-purple-500 hover:border-neutral-400 ${
-              errors.ownerName ? "border-pink-500" : "border-neutral-300"
+            className={`w-full px-3 py-2  ${
+              errors.ownerName ? "border-pink-500" : ""
             }`}
           />
           {errors.ownerName && (

@@ -8,6 +8,7 @@ import { numberWithCommas } from "../utils/helper";
 import Image from "next/image";
 import AuthContext from "../context/AuthContext";
 import EnvAPI from "@/lib/EnvAPI";
+import { Button } from "./ui/button";
 
 export default function SubmitOrder({
   tripTypeStatus,
@@ -57,7 +58,6 @@ export default function SubmitOrder({
   } = useForm();
 
   const handleTotalExpenses = () => {
-    console.log("Function Called");
     const loading = parseInt(watch("loading"));
     const unLoading = parseInt(watch("unloading"));
     const tollGate = parseInt(watch("tollGate"));
@@ -71,7 +71,6 @@ export default function SubmitOrder({
 
   const handleFreightAmount = () => {
     const freight = parseInt(watch("freight"));
-    console.log("freight", freight, "quantity", quantity);
     const amount = freight * quantity;
     setFreightAmount(amount);
   };
@@ -109,7 +108,6 @@ export default function SubmitOrder({
       id: orderId,
       order_data: data,
     };
-    console.log("Data", orderData);
     const orderStatus = updateOrder(orderData);
     // orderStatus.then()
     setShow(true);
@@ -393,13 +391,9 @@ export default function SubmitOrder({
           </div>
         </div>
         <div>
-          <button
-            type="submit"
-            className="w-full text-white bg-primary hover:bg-purple-600 
-            font-semibold py-2 px-4 rounded"
-          >
+          <Button type="submit" className="w-full py-2 px-4 ">
             Submit
-          </button>
+          </Button>
         </div>
       </form>
     </>

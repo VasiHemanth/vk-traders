@@ -41,8 +41,6 @@ export default function VehicleMonthSelector({
   const onSubmit = async (e) => {
     e.preventDefault();
     setFilter({ ...filter, loading: true });
-    console.log("filter", filter.monthYear);
-    console.log("filter", filter.selectedTruck);
     const okStatus = await handleVehicleMonthSelection(
       filter.monthYear,
       filter.selectedTruck

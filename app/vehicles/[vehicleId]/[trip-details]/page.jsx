@@ -41,8 +41,6 @@ export default function TripDetails({ params }) {
     getEntireTripDetails();
   }, []);
 
-  console.log("got response", response);
-
   return (
     <div className="m-4 sm:m-8">
       <Link

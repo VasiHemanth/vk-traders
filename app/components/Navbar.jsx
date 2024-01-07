@@ -20,6 +20,8 @@ import Image from "next/image";
 export default function Navbar() {
   const { user, logOutUser } = useContext(AuthContext);
 
+  console.log("user", user);
+
   const pathname = usePathname();
 
   return (
@@ -41,6 +43,9 @@ export default function Navbar() {
           </Link>
           {pathname.includes("/application") && (
             <Link href="/vehicles">Vehicles</Link>
+          )}
+          {user.is_superuser && pathname.includes("/vehicles") && (
+            <Link href="/application/Overview">Overview</Link>
           )}
         </div>
 

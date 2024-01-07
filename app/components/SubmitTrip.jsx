@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import AuthContext from "../context/AuthContext";
 import EnvAPI from "@/lib/EnvAPI";
+import { Button } from "./ui/button";
 
 export default function SubmitTrip({ vehicleId, tripId }) {
   const [show, setShow] = useState(false);
@@ -64,7 +65,6 @@ export default function SubmitTrip({ vehicleId, tripId }) {
   };
 
   const onSubmit = (data) => {
-    console.log("Data", data);
     const response = updateTripDetails(data);
     response.then((message) => {
       if (message.message === "Trip submitted successfully") {
@@ -409,13 +409,13 @@ export default function SubmitTrip({ vehicleId, tripId }) {
           />
         </div>
         <div>
-          <button
+          <Button
             type="submit"
-            className="w-full text-white bg-purple-500 hover:bg-purple-600 
-            font-semibold py-2 px-4 rounded"
+            className="w-full  
+            py-2 px-4"
           >
             Submit
-          </button>
+          </Button>
         </div>
       </form>
     </>
