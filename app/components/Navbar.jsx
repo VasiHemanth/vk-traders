@@ -44,7 +44,7 @@ export default function Navbar() {
           {pathname.includes("/application") && (
             <Link href="/vehicles">Vehicles</Link>
           )}
-          {user.is_superuser && pathname.includes("/vehicles") && (
+          {user && user.is_superuser && pathname.includes("/vehicles") && (
             <Link href="/application/Overview">Overview</Link>
           )}
         </div>
