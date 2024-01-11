@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Card,
@@ -17,13 +17,17 @@ import {
 
 import LineChartTo from "./LineChartTo";
 
-const items = [
-  { label: "Option 1", value: "option1" },
-  { label: "Option 2", value: "option2" },
-  { label: "Option 3", value: "option3" },
-];
+export default function ChartCard({ handleChartDataColumn, chartData, query }) {
+  const [chartColumn, setChartColumn] = useState({
+    loading: false,
+    column: "quantity",
+  });
 
-export default function ChartCard() {
+  const handleChange = (e) => {
+    setChartColumn({ ...chartColumn, column: e });
+    handleChartDataColumn(e, query.monthYear, query.vehicle);
+  };
+
   return (
     <Card className="flex flex-col lg:min-h-full 2xl:min-h-3/4">
       <CardHeader className="flex flex-row items-center justify-between px-8 pt-4 ">
@@ -37,20 +41,20 @@ export default function ChartCard() {
         </div>
         {/* <Image src={icon} width={20} height={20} alt={title + "icon"} /> */}
         <div className="w-auto">
-          <Select>
+          <Select onValueChange={(e) => handleChange(e)}>
             <SelectTrigger>
-              <SelectValue placeholder="quantity" />
+              <SelectValue placeholder="Quantity" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="quantity">Quantity</SelectItem>
-              <SelectItem value="maintenance">Maintenance</SelectItem>
-              <SelectItem value="balance">Balance</SelectItem>
+              <SelectItem value="maintanance">Maintanance</SelectItem>
+              <SelectItem value="balance_amount">Balance</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </CardHeader>
       <CardContent>
-        <LineChartTo />
+        <LineChartTo label={"Quantity"} chartData={chartData} />
       </CardContent>
     </Card>
   );

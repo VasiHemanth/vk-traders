@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -13,6 +13,7 @@ import { Button } from "@/app/components/ui/button";
 import { Input } from "../ui/input";
 import EnvAPI from "@/lib/EnvAPI";
 import ButtonLoader from "../ButtonLoader";
+import AuthContext from "@/app/context/AuthContext";
 
 export default function VehicleMonthSelector({
   vehicle,
@@ -27,9 +28,17 @@ export default function VehicleMonthSelector({
 
   const url = EnvAPI();
 
+  const { AuthTokens } = useContext(AuthContext);
+
   useEffect(() => {
     const getAllTrucks = async () => {
-      const allTrucks = await fetch(`${url}/api/all-trucks`);
+      const allTrucks = await fetch(`${url}/api/all-trucks`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + AuthTokens.access,
+        },
+      });
       const truckResponse = await allTrucks.json();
 
       setFilter({ ...filter, trucks: truckResponse });
@@ -69,7 +78,7 @@ export default function VehicleMonthSelector({
         >
           <SelectTrigger>
             <SelectValue
-              placeholder={vehicle}
+              placeholder={`Select ${vehicle}`}
               className="text-muted-foreground"
             />
           </SelectTrigger>
