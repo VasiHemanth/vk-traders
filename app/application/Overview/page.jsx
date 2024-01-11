@@ -9,6 +9,7 @@ import CardRecent from "@/app/components/dashboard/CardRecent";
 import EnvAPI from "@/lib/EnvAPI";
 import TruckVitals from "@/app/components/dashboard/TruckVitals";
 import AuthContext from "@/app/context/AuthContext";
+import ButtonLoader from "@/app/components/ButtonLoader";
 
 export default function Overview() {
   const [overview, setOverview] = useState({
@@ -39,6 +40,9 @@ export default function Overview() {
 
     const chartDataResponse = await getChartData.json();
     setChartData(chartDataResponse);
+    if (getChartData.ok) {
+      return true;
+    }
   };
 
   const handleVehicleMonthSelection = async (monthYear, vehicle) => {
@@ -48,7 +52,7 @@ export default function Overview() {
       recentDeliveries: [],
       fetched: false,
     });
-
+    setChartData(null);
     setQuery({
       monthYear: monthYear,
       vehicle: vehicle,
@@ -105,12 +109,16 @@ export default function Overview() {
           </div>
           <div className="flex flex-col xl:flex-row gap-2 max-h-[20%] ">
             <div className="w-full xl:w-3/5">
-              {chartData != null && (
+              {chartData != null ? (
                 <ChartCard
                   chartData={chartData}
                   handleChartDataColumn={handleChartDataColumn}
                   query={query}
                 />
+              ) : (
+                <div className="h-60 grid place-items-center">
+                  <ButtonLoader />
+                </div>
               )}
             </div>
             <div className="w-full xl:w-2/5">

@@ -16,6 +16,8 @@ import {
 } from "@/app/components/ui/select";
 
 import LineChartTo from "./LineChartTo";
+import Loader from "../loader";
+import ButtonLoader from "../ButtonLoader";
 
 export default function ChartCard({ handleChartDataColumn, chartData, query }) {
   const [chartColumn, setChartColumn] = useState({
@@ -23,9 +25,17 @@ export default function ChartCard({ handleChartDataColumn, chartData, query }) {
     column: "quantity",
   });
 
-  const handleChange = (e) => {
-    setChartColumn({ ...chartColumn, column: e });
-    handleChartDataColumn(e, query.monthYear, query.vehicle);
+  const handleChange = async (e) => {
+    setChartColumn({ ...chartColumn, column: e, loading: true });
+    const okChart = await handleChartDataColumn(
+      e,
+      query.monthYear,
+      query.vehicle
+    );
+
+    if (okChart) {
+      setChartColumn({ ...chartColumn, loading: false });
+    }
   };
 
   return (
@@ -54,7 +64,13 @@ export default function ChartCard({ handleChartDataColumn, chartData, query }) {
         </div>
       </CardHeader>
       <CardContent>
-        <LineChartTo label={"Quantity"} chartData={chartData} />
+        {chartColumn.loading ? (
+          <div className="w-full h-56 grid place-items-center">
+            <ButtonLoader />
+          </div>
+        ) : (
+          <LineChartTo chartData={chartData} />
+        )}
       </CardContent>
     </Card>
   );
