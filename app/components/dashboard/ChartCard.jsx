@@ -16,7 +16,6 @@ import {
 } from "@/app/components/ui/select";
 
 import LineChartTo from "./LineChartTo";
-import Loader from "../loader";
 import ButtonLoader from "../ButtonLoader";
 
 export default function ChartCard({ handleChartDataColumn, chartData, query }) {
