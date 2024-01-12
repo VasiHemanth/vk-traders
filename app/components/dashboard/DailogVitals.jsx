@@ -15,7 +15,7 @@ export default function DailogVitals({ data, totalExpenses, query }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div>
+        <div className="hover:border-2 hover:border-primary rounded-2xl">
           <CardIcon
             title={data.title}
             description={data.description}
