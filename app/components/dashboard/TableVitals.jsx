@@ -4,18 +4,25 @@ import {
   TableBody,
   TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/app/components/ui/table";
+import { numberWithCommas } from "@/app/utils/helper";
 
-export default function TableVitals({ expenses }) {
+export default function TableVitals({ expenses, query }) {
+  let total = 0;
+  expenses.forEach((element) => {
+    total += element["value"];
+  });
+
   return (
     <Table>
-      <TableCaption>A list of all the Total expenses</TableCaption>
+      <TableCaption>{query.vehicle}</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Expenses</TableHead>
+          <TableHead>Expenses</TableHead>
           <TableHead>Value</TableHead>
         </TableRow>
       </TableHeader>
@@ -23,10 +30,16 @@ export default function TableVitals({ expenses }) {
         {expenses.map((expense) => (
           <TableRow key={expense.label}>
             <TableCell className="font-medium">{expense.label}</TableCell>
-            <TableCell>{expense.value}</TableCell>
+            <TableCell>₹{numberWithCommas(expense.value)}</TableCell>
           </TableRow>
         ))}
       </TableBody>
+      <TableFooter>
+        <TableRow>
+          <TableCell>Total</TableCell>
+          <TableCell>₹{numberWithCommas(total)}</TableCell>
+        </TableRow>
+      </TableFooter>
     </Table>
   );
 }

@@ -15,6 +15,7 @@ export default function Overview() {
   const [overview, setOverview] = useState({
     vitalsData: [],
     recentDeliveries: [],
+    totalExpenditure: [],
     fetched: false,
   });
 
@@ -50,6 +51,7 @@ export default function Overview() {
       ...overview,
       vitalsData: [],
       recentDeliveries: [],
+      totalExpenditure: [],
       fetched: false,
     });
     setChartData(null);
@@ -77,6 +79,7 @@ export default function Overview() {
       fetched: true,
       vitalsData: overviewResponse[0],
       recentDeliveries: overviewResponse[1],
+      totalExpenditure: overviewResponse[2],
     });
 
     return overivewVitalsRecentDeliveries.ok;
@@ -104,7 +107,11 @@ export default function Overview() {
         <>
           <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 py-3">
             {overview.vitalsData.length != 0 && (
-              <TruckVitals truckVitals={overview.vitalsData} />
+              <TruckVitals
+                truckVitals={overview.vitalsData}
+                totalExpenses={overview.totalExpenditure}
+                query={query}
+              />
             )}
           </div>
           <div className="flex flex-col xl:flex-row gap-2 max-h-[20%] ">

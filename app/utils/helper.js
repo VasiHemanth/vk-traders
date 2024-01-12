@@ -9,6 +9,14 @@ export const color = (status) => {
   }
 };
 
+export function formatmonthYeartoLongMonth(monthYear) {
+  const dateObject = new Date(monthYear);
+  const month = dateObject.toLocaleString('default', { month: 'long' });
+  const year = dateObject.getFullYear();
+  const formattedDate = `${month} ${year}`;
+  return formattedDate
+}
+
 export function formatISODatetoDDMMYYY(dateString) {
   const dateObj = new Date(dateString);
   const year = dateObj.getFullYear();

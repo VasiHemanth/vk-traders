@@ -62,14 +62,14 @@ const LineChartTo = ({ chartData }) => {
         labels: {
           title: {
             font: {
-              weight: "bold",
+              weight: "normal",
             },
           },
         },
         font: {
           size: 14,
         },
-        backgroundColor: "rgb(25,72,122, 0.2)",
+
         formatter: function (value) {
           if (chartData && chartData.column === "quantity") {
             return `${value} tons`;
