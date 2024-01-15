@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import Image from "next/image";
-import { numberWithCommas } from "@/app/utils/helper";
+import { formatISODatetoDDMMYYY, numberWithCommas } from "@/app/utils/helper";
 
 export default function CardRecent({ recentData }) {
   return (
@@ -31,7 +31,7 @@ export default function CardRecent({ recentData }) {
               {data.from} - {data.to}
             </div>
             <p className="text-xs text-muted-foreground">
-              {data.order_date.split("T")[0]} | FA{" "}
+              {formatISODatetoDDMMYYY(data.order_date)} | FA{" "}
               {numberWithCommas(data.frieght)} | Qty {data.quantity}
             </p>
           </div>

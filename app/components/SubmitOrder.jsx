@@ -2,13 +2,15 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
-import { useForm, Controller } from "react-hook-form";
-import { numberWithCommas } from "../utils/helper";
 import Image from "next/image";
+
 import AuthContext from "../context/AuthContext";
+import { numberWithCommas } from "../utils/helper";
 import EnvAPI from "@/lib/EnvAPI";
+
 import { Button } from "./ui/button";
+import { Switch } from "./ui/switch";
+import { useForm, Controller } from "react-hook-form";
 
 export default function SubmitOrder({
   tripTypeStatus,
@@ -103,6 +105,8 @@ export default function SubmitOrder({
     data["freightAmount"] = freightAmount;
     data["driverAmount"] = driverAmount;
     data["submitStatus"] = true;
+
+    console.log("data", data);
 
     let orderData = {
       id: orderId,
@@ -389,6 +393,20 @@ export default function SubmitOrder({
               </span>
             )}
           </div>
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="gst"
+            className="block text-gray-700 font-semibold mb-2 md:text-md"
+          >
+            Apply GST
+          </label>
+          <Controller
+            name="gst"
+            control={control}
+            defaultValue={true}
+            render={({ field }) => <Switch {...field} />}
+          />
         </div>
         <div>
           <Button type="submit" className="w-full py-2 px-4 ">
