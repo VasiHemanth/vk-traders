@@ -18,11 +18,11 @@ export default function AddServiceDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" title="Open Maintanance">
+        <Button variant="outline" title="Open Maintenance">
           Add
           <Image
-            src="/maintanance.svg"
-            alt="maintanace"
+            src="/maintenance.svg"
+            alt="maintenance"
             width={22}
             height={22}
             className="pl-1"
