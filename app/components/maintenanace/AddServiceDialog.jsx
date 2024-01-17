@@ -33,8 +33,8 @@ export default function AddServiceDialog() {
         <DialogHeader>
           <DialogTitle>Add Maintenance</DialogTitle>
           <DialogDescription>
-            Add servicing, repairs and aftercare maintenance tasks. Click save
-            when you're done.
+            {`Add servicing, repairs and aftercare maintenance tasks. Click save
+            when you're done.`}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
