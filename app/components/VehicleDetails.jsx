@@ -6,6 +6,7 @@ import {
   formatISODatetoDDMMYYY,
 } from "../utils/helper";
 import { Button } from "./ui/button";
+import Image from "next/image";
 
 export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
   return (
@@ -33,11 +34,30 @@ export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
       </Link>
 
       <div className="max-w-md mx-auto">
-        <div className="mb-4 border-b">
-          <p className="text-lg font-semibold text-gray-700">{vehicleId}</p>
-          <p className={`font-semibold ${color(vehicleData.status)}`}>
-            {vehicleData.status}
-          </p>
+        <div className="mb-4 border-b flex items-center justify-between">
+          <div>
+            <p className="text-lg font-semibold text-gray-700">{vehicleId}</p>
+            <p className={`font-semibold ${color(vehicleData.status)}`}>
+              {vehicleData.status}
+            </p>
+          </div>
+          <Button variant="outline" title="Open Maintanance">
+            <Link
+              href={{
+                pathname: `/vehicles/${vehicleId}/maintenance`,
+              }}
+              className="flex items-center justify-between"
+            >
+              Open
+              <Image
+                src="/maintenance.svg"
+                alt="maintanace"
+                width={22}
+                height={22}
+                className="pl-1"
+              />
+            </Link>
+          </Button>
         </div>
         <div className="mb-4 w-full text-gray-600 font-medium flex flex-row">
           <span className=" basis-1/2">Company</span>
@@ -84,7 +104,14 @@ export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
               <Button
                 variant="outline"
                 key={index}
-                className="hover:text-primary hover:border-primary border-2"
+                className={`${
+                  !data.submit_status
+                    ? "text-secondary border border-secondary hover:text-white hover:bg-secondary"
+                    : `${
+                        data.no_of_trips > 1 &&
+                        "text-primary border-primary border"
+                      } hover:text-white hover:bg-primary`
+                } `}
               >
                 <Link
                   href={{

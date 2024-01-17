@@ -51,7 +51,7 @@ export default async function Vehicle() {
       <div className="flex items-center justify-center overflow-y-auto">
         <div className="my-5 grid grid-flow-row sm:grid-cols-2 xl:grid-cols-3">
           {getVehicles.map((lorry) => (
-            <div key={lorry.id}>
+            <div key={lorry.registration_number}>
               <Card lorry={lorry} />
             </div>
           ))}
