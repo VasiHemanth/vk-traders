@@ -1,10 +1,21 @@
 import AddServiceDialog from "@/app/components/maintenanace/AddServiceDialog";
 import ServiceAccordian from "@/app/components/maintenanace/ServiceAccordian";
+import EnvAPI from "@/lib/EnvAPI";
 
 import Link from "next/link";
 import React from "react";
 
-export default function Maintanance(props) {
+export const dynamic = "force-dynamic";
+
+export default async function Maintanance(props) {
+  const url = EnvAPI();
+
+  const get_maintenance_data = await fetch(
+    `${url}/api/maintenance-data?vehicle_id=${props.params.vehicleId}`
+  );
+
+  const maintenance_dates = await get_maintenance_data.json();
+
   return (
     <div className="flex items-center justify-center">
       <div className="m-4 sm:m-8 w-full h-screen">
@@ -34,13 +45,13 @@ export default function Maintanance(props) {
           <div className="mb-4 border-b flex items-center justify-between">
             <div>
               <p className="text-lg font-semibold">{props.params.vehicleId}</p>
-              <p className="text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 Detailed log of maintenance activites
               </p>
             </div>
-            <AddServiceDialog />
+            <AddServiceDialog vehicle_id={props.params.vehicleId} />
           </div>
-          <ServiceAccordian />
+          <ServiceAccordian maintenance={maintenance_dates} />
         </div>
       </div>
     </div>

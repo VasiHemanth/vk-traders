@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Accordion,
@@ -6,30 +8,32 @@ import {
   AccordionTrigger,
 } from "@/app/components/ui/accordion";
 
-export default function ServiceAccordian() {
+export default function ServiceAccordion({ maintenance }) {
   return (
-    <Accordion type="multiple" collapsible className="w-full">
-      <AccordionItem value="item-1">
-        <AccordionTrigger className="text-base">
-          Is it accessible?
-        </AccordionTrigger>
-        <AccordionContent className="text-base">
-          Yes. It adheres to the WAI-ARIA design pattern.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger>Is it styled?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It comes with default styles that matches the other components
-          aesthetic.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-3">
-        <AccordionTrigger>Is it animated?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It is animated by default, but you can disable it if you prefer.
-        </AccordionContent>
-      </AccordionItem>
+    <Accordion type="multiple" collapsible="true" className="w-full">
+      {maintenance["monthYear"].map((monthYear, i) => (
+        <AccordionItem key={i} value={`item-${i + 1}`}>
+          <AccordionTrigger className="text-base">{monthYear}</AccordionTrigger>
+          <AccordionContent className="text-base">
+            {maintenance["activities"].map((activity, j) => {
+              const servicesForMonth = activity[monthYear] || [];
+
+              return servicesForMonth.map((service, index) => (
+                <div
+                  key={index}
+                  className="mb-4 w-full text-gray-600 font-medium flex flex-row"
+                >
+                  <span className="basis-1/2">{service.activity_name}</span>
+                  <span className="text-center basis-1/6">:</span>
+                  <span className="text-left basis-3/4">
+                    ₹{service.charges}
+                  </span>
+                </div>
+              ));
+            })}
+          </AccordionContent>
+        </AccordionItem>
+      ))}
     </Accordion>
   );
 }
