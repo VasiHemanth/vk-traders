@@ -9,6 +9,7 @@ import {
 } from "../ui/card";
 import Image from "next/image";
 import { formatISODatetoDDMMYYY, numberWithCommas } from "@/app/utils/helper";
+import DialogTrips from "./DialogTrips";
 
 export default function CardRecent({ recentData }) {
   return (
@@ -22,7 +23,8 @@ export default function CardRecent({ recentData }) {
             {recentData.length} deliveries in this month
           </CardDescription>
         </div>
-        <Image src="/delivery.svg" width={20} height={20} alt="Delivery icon" />
+        {/* <Image src="/delivery.svg" width={20} height={20} alt="Delivery icon" /> */}
+        <DialogTrips />
       </CardHeader>
       <CardContent>
         {recentData.map((data, index) => (
