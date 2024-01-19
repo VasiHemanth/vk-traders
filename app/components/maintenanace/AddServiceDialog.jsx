@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import { revalidatePath } from "next/cache";
 
 import { Button } from "@/app/components/ui/button";
 import {

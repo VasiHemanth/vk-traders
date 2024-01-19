@@ -4,7 +4,12 @@ import DailogVitals from "@/app/components/dashboard/DailogVitals";
 
 import CardIcon from "@/app/components/dashboard/CardIcon";
 
-export default function TruckVitals({ truckVitals, totalExpenses, query }) {
+export default function TruckVitals({
+  truckVitals,
+  totalExpenses,
+  totalMaintenance,
+  query,
+}) {
   return (
     <>
       {truckVitals.map((truck, index) =>
@@ -12,7 +17,11 @@ export default function TruckVitals({ truckVitals, totalExpenses, query }) {
           <div key={index} className="cursor-pointer">
             <DailogVitals
               data={truck}
-              totalExpenses={totalExpenses}
+              totalExpenses={
+                truck.title === "Total Expenditure"
+                  ? totalExpenses
+                  : totalMaintenance
+              }
               query={query}
             />
           </div>

@@ -56,7 +56,7 @@ export default function ChartCard({ handleChartDataColumn, chartData, query }) {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="quantity">Quantity</SelectItem>
-              <SelectItem value="maintanance">Maintanance</SelectItem>
+              <SelectItem value="maintenance">Maintenance</SelectItem>
               <SelectItem value="balance_amount">Balance</SelectItem>
             </SelectContent>
           </Select>

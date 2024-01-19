@@ -16,6 +16,7 @@ export default function Overview() {
     vitalsData: [],
     recentDeliveries: [],
     totalExpenditure: [],
+    totalMaintenance: [],
     fetched: false,
   });
 
@@ -52,6 +53,7 @@ export default function Overview() {
       vitalsData: [],
       recentDeliveries: [],
       totalExpenditure: [],
+      totalMaintenance: [],
       fetched: false,
     });
     setChartData(null);
@@ -80,6 +82,7 @@ export default function Overview() {
       vitalsData: overviewResponse[0],
       recentDeliveries: overviewResponse[1],
       totalExpenditure: overviewResponse[2],
+      totalMaintenance: overviewResponse[3],
     });
 
     return overivewVitalsRecentDeliveries.ok;
@@ -110,6 +113,7 @@ export default function Overview() {
               <TruckVitals
                 truckVitals={overview.vitalsData}
                 totalExpenses={overview.totalExpenditure}
+                totalMaintenance={overview.totalMaintenance}
                 query={query}
               />
             )}

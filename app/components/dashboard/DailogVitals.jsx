@@ -31,7 +31,11 @@ export default function DailogVitals({ data, totalExpenses, query }) {
           <DialogTitle>{data.title}</DialogTitle>
           <DialogDescription>
             Detailed statement of {formatmonthYeartoLongMonth(query.monthYear)}{" "}
-            expenditures
+            {data.title === "Total Expenditure" ? (
+              <>expenditures</>
+            ) : (
+              <>maintenance spending</>
+            )}
           </DialogDescription>
         </DialogHeader>
         <TableVitals expenses={totalExpenses} query={query} />
