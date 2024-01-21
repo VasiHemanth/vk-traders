@@ -36,6 +36,11 @@ export function formatDateToYYYYMMDD(dateStr) {
   return `${year}-${month}-${day}`;
 }
 
+export function formatYYYYMMDDToDDMMYYYY(dateStr) {
+  const [year, month, day] = dateStr.split("-")
+  return `${day}-${month}-${year}`
+}
+
 export function formatDateAndTime(dateTimeString) {
   const dateObj = new Date(dateTimeString);
   const options = {

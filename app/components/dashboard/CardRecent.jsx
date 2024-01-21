@@ -11,7 +11,7 @@ import Image from "next/image";
 import { formatISODatetoDDMMYYY, numberWithCommas } from "@/app/utils/helper";
 import DialogTrips from "./DialogTrips";
 
-export default function CardRecent({ recentData }) {
+export default function CardRecent({ recentData, allTrips, query }) {
   return (
     <Card className="h-[400px] lg:min-h-full 2xl:h-3/4 overflow-y-auto">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sticky top-0 bg-background">
@@ -24,7 +24,7 @@ export default function CardRecent({ recentData }) {
           </CardDescription>
         </div>
         {/* <Image src="/delivery.svg" width={20} height={20} alt="Delivery icon" /> */}
-        <DialogTrips />
+        <DialogTrips allTrips={allTrips} query={query} />
       </CardHeader>
       <CardContent>
         {recentData.map((data, index) => (

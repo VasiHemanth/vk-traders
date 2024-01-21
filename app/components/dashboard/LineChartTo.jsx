@@ -35,7 +35,7 @@ const LineChartTo = ({ chartData }) => {
         title: {
           display: true,
           text:
-            chartData && chartData.column === "quantity"
+            chartData && chartData.column === "Quantity"
               ? "Quantity in tons"
               : "Amount in (₹)",
           font: {
@@ -45,7 +45,7 @@ const LineChartTo = ({ chartData }) => {
         },
         ticks: {
           callback: function (value) {
-            if (chartData && chartData.column === "quantity") {
+            if (chartData && chartData.column === "Quantity") {
               return `${value}`;
             } else {
               return `${numberWithCommas(value)}`;
@@ -71,7 +71,7 @@ const LineChartTo = ({ chartData }) => {
         },
 
         formatter: function (value) {
-          if (chartData && chartData.column === "quantity") {
+          if (chartData && chartData.column === "Quantity") {
             return `${value} tons`;
           } else {
             return `₹${numberWithCommas(value)}`;
@@ -81,11 +81,11 @@ const LineChartTo = ({ chartData }) => {
       tooltip: {
         callbacks: {
           label: function (context) {
-            if (context.dataset.label === "quantity") {
+            if (context.dataset.label === "Quantity") {
               return `Quantity: ${context.parsed.y} tons`;
-            } else if (context.dataset.label === "balance_amount") {
+            } else if (context.dataset.label === "Balance_amount") {
               return `Balance Amount: ₹${numberWithCommas(context.parsed.y)}`;
-            } else if (context.dataset.label === "maintanance") {
+            } else if (context.dataset.label === "Maintanance") {
               return `Maintanance: ₹${numberWithCommas(context.parsed.y)}`;
             }
           },

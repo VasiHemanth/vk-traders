@@ -11,8 +11,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/app/components/ui/dialog";
+import TableOverview from "./TableOverview";
+import { formatmonthYeartoLongMonth } from "@/app/utils/helper";
 
-export default function DialogTrips() {
+export default function DialogTrips({ allTrips, query }) {
   return (
     <>
       <Dialog>
@@ -32,13 +34,16 @@ export default function DialogTrips() {
             />
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[95%] h-[95%]">
+        <DialogContent className="sm:max-w-[97%] sm:h-[95%] 2xl:h-[75%]">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle>Total Orders</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when your are done.
+              Balance sheet analysis of {query.vehicle} in{" "}
+              {formatmonthYeartoLongMonth(query.monthYear)}
             </DialogDescription>
           </DialogHeader>
+          <TableOverview allTrips={allTrips} />
+          {/* <DialogFooter className="flex items-center justify-center !mx-auto text-muted-foreground"></DialogFooter> */}
         </DialogContent>
       </Dialog>
     </>

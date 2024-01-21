@@ -17,6 +17,7 @@ export default function Overview() {
     recentDeliveries: [],
     totalExpenditure: [],
     totalMaintenance: [],
+    allTrips: [],
     fetched: false,
   });
 
@@ -54,6 +55,7 @@ export default function Overview() {
       recentDeliveries: [],
       totalExpenditure: [],
       totalMaintenance: [],
+      allTrips: [],
       fetched: false,
     });
     setChartData(null);
@@ -83,6 +85,7 @@ export default function Overview() {
       recentDeliveries: overviewResponse[1],
       totalExpenditure: overviewResponse[2],
       totalMaintenance: overviewResponse[3],
+      allTrips: overviewResponse[4],
     });
 
     return overivewVitalsRecentDeliveries.ok;
@@ -119,7 +122,7 @@ export default function Overview() {
             )}
           </div>
           <div className="flex flex-col xl:flex-row gap-2 max-h-[20%] ">
-            <div className="w-full xl:w-3/5">
+            <div className="w-full xl:w-3/5 2xl:w-3/4">
               {chartData != null ? (
                 <ChartCard
                   chartData={chartData}
@@ -132,8 +135,12 @@ export default function Overview() {
                 </div>
               )}
             </div>
-            <div className="w-full xl:w-2/5">
-              <CardRecent recentData={overview.recentDeliveries} />
+            <div className="w-full xl:w-2/5 2xl:w-1/4">
+              <CardRecent
+                recentData={overview.recentDeliveries}
+                allTrips={overview.allTrips}
+                query={query}
+              />
             </div>
           </div>
         </>
