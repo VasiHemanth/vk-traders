@@ -100,14 +100,14 @@ export default function TableOverview({ allTrips }) {
                   {column["ADBLUE"]}
                 </TableCell>
               )}
-              {/* {column["TOTAL EXPENSES"] && (
+              {column["TOTAL EXPENSES"] && (
                 <TableCell
                   rowSpan={allTrips["row_span"][i]}
-                  className="border border-r border-gray-600  text-center"
+                  className="border border-r border-gray-600 text-center"
                 >
                   {column["TOTAL EXPENSES"]}
                 </TableCell>
-              )} */}
+              )}
               {column["MILEAGE"] && (
                 <TableCell
                   rowSpan={allTrips["row_span"][i]}
@@ -137,8 +137,16 @@ export default function TableOverview({ allTrips }) {
                 </TableCell>
               )}
               <TableCell className="border border-r border-gray-600 text-center">
-                {column["GST"]}
+                {column["GST AMT"]}
               </TableCell>
+              {column["BALANCE AMT (+GST)"] && (
+                <TableCell
+                  rowSpan={allTrips["row_span"][i]}
+                  className="border border-r border-gray-600 text-center"
+                >
+                  {column["BALANCE AMT (+GST)"]}
+                </TableCell>
+              )}
             </TableRow>
           </>
         ))}

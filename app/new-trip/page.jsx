@@ -31,6 +31,8 @@ export default function NewTrip() {
     formState: { errors },
   } = useForm();
 
+  const tripTypeWatch = watch("tripType");
+
   const router = useRouter();
 
   const url = EnvAPI();
@@ -193,6 +195,7 @@ export default function NewTrip() {
             type="number"
             id="Trips"
             defaultValue={1}
+            disabled={tripTypeWatch && tripTypeWatch.value === "One Way"}
             {...register("Trips", { required: true })}
             placeholder="Enter number"
             className={`w-full px-3 py-2 rounded-md text-gray-700 

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 
 import { Button } from "@/app/components/ui/button";
@@ -20,6 +20,7 @@ import { useToast } from "@/app/components/ui/use-toast";
 import { useForm, Controller } from "react-hook-form";
 import EnvAPI from "@/lib/EnvAPI";
 import { useRouter } from "next/navigation";
+import AuthContext from "@/app/context/AuthContext";
 
 export default function AddServiceDialog({ vehicle_id }) {
   const {
@@ -32,6 +33,8 @@ export default function AddServiceDialog({ vehicle_id }) {
     setValue,
   } = useForm();
 
+  const { AuthTokens } = useContext(AuthContext);
+
   const url = EnvAPI();
   const router = useRouter();
   const { toast } = useToast();
@@ -43,7 +46,7 @@ export default function AddServiceDialog({ vehicle_id }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: "Bearer " + AuthTokens.access,
+        Authorization: "Bearer " + AuthTokens.access,
       },
       body: JSON.stringify(data),
     });

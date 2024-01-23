@@ -1,17 +1,28 @@
+import React from "react";
+import Link from "next/link";
+
+import { cookies } from "next/headers";
+
 import AddServiceDialog from "@/app/components/maintenanace/AddServiceDialog";
 import ServiceAccordian from "@/app/components/maintenanace/ServiceAccordian";
 import EnvAPI from "@/lib/EnvAPI";
 
-import Link from "next/link";
-import React from "react";
-
 export const dynamic = "force-dynamic";
 
 export default async function Maintanance(props) {
+  const cookieStore = cookies();
+  const access_token = cookieStore.get("django-auth-access");
   const url = EnvAPI();
 
   const get_maintenance_data = await fetch(
-    `${url}/api/maintenance-data?vehicle_id=${props.params.vehicleId}`
+    `${url}/api/maintenance-data?vehicle_id=${props.params.vehicleId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + access_token.value,
+      },
+    }
   );
 
   const maintenance_dates = await get_maintenance_data.json();
