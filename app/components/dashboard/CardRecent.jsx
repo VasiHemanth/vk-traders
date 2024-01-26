@@ -7,8 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import Image from "next/image";
-import { formatISODatetoDDMMYYY, numberWithCommas } from "@/app/utils/helper";
+import { formatYYYYMMDDToDDMMYYYY, numberWithCommas } from "@/app/utils/helper";
 import DialogTrips from "./DialogTrips";
 
 export default function CardRecent({ recentData, allTrips, query }) {
@@ -23,17 +22,16 @@ export default function CardRecent({ recentData, allTrips, query }) {
             {recentData.length} deliveries in this month
           </CardDescription>
         </div>
-        {/* <Image src="/delivery.svg" width={20} height={20} alt="Delivery icon" /> */}
         <DialogTrips allTrips={allTrips} query={query} />
       </CardHeader>
       <CardContent>
         {recentData.map((data, index) => (
           <div key={index} className="py-2">
             <div className="text-sm font-semibold">
-              {data.from} - {data.to}
+              {data.from.toUpperCase()} - {data.to.toUpperCase()}
             </div>
             <p className="text-xs text-muted-foreground">
-              {formatISODatetoDDMMYYY(data.order_date)} | FA{" "}
+              {formatYYYYMMDDToDDMMYYYY(data.order_date)} | FA{" "}
               {numberWithCommas(data.frieght)} | Qty {data.quantity}
             </p>
           </div>

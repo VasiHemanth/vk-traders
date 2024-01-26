@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 
 import { Button } from "@/app/components/ui/button";
@@ -21,8 +21,11 @@ import { useForm, Controller } from "react-hook-form";
 import EnvAPI from "@/lib/EnvAPI";
 import { useRouter } from "next/navigation";
 import AuthContext from "@/app/context/AuthContext";
+import ButtonLoader from "../ButtonLoader";
 
 export default function AddServiceDialog({ vehicle_id }) {
+  const [loader, setLoader] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -40,6 +43,7 @@ export default function AddServiceDialog({ vehicle_id }) {
   const { toast } = useToast();
 
   const handleSave = async (data) => {
+    setLoader(true);
     data["vehicle_id"] = vehicle_id;
     console.log("data", data);
     const submitMaintenance = await fetch(`${url}/api/maintenance-data`, {
@@ -54,6 +58,7 @@ export default function AddServiceDialog({ vehicle_id }) {
     const verifyRecord = await submitMaintenance.json();
 
     if (verifyRecord.message) {
+      setLoader(false);
       toast({
         description: verifyRecord.message,
       });
@@ -148,7 +153,15 @@ export default function AddServiceDialog({ vehicle_id }) {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Save</Button>
+            <Button type="submit">
+              {loader ? (
+                <>
+                  <ButtonLoader /> Submitting...
+                </>
+              ) : (
+                <>Save</>
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

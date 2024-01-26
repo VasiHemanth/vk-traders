@@ -19,13 +19,14 @@ export default function CardIcon({ title, icon, value, description, color }) {
     }
     return returnValue;
   };
+
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between px-3 space-y-0 pb-2">
+    <Card className="">
+      <CardHeader className="flex flex-row items-center justify-between px-3 pt-4 pb-1">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <Image src={icon} width={20} height={20} alt={title + "icon"} />
       </CardHeader>
-      <CardContent className="px-3">
+      <CardContent className="px-3 space-y-0">
         <div
           className={`lg:text-lg xl:text-xl font-bold
           ${
@@ -39,7 +40,13 @@ export default function CardIcon({ title, icon, value, description, color }) {
         >
           {formatVitalValue(value, title)}
         </div>
-        <p className="text-xs text-muted-foreground">{description}</p>
+        <p className="text-xs text-muted-foreground">
+          {title == "Balance" ? (
+            <>Balance with gst ₹{numberWithCommas(description)}</>
+          ) : (
+            description
+          )}
+        </p>
       </CardContent>
     </Card>
   );

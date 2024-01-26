@@ -121,7 +121,7 @@ export default function Overview() {
               />
             )}
           </div>
-          <div className="flex flex-col xl:flex-row gap-2 max-h-[20%] ">
+          <div className="flex flex-col xl:flex-row gap-2 max-h-[20%]">
             <div className="w-full xl:w-3/5 2xl:w-3/4">
               {chartData != null ? (
                 <ChartCard

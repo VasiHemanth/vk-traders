@@ -103,7 +103,7 @@ export default function VehicleMonthSelector({
       <Button type="submit" className="w-full sm:w-auto">
         {filter.loading ? (
           <>
-            <ButtonLoader /> Getting data...
+            <ButtonLoader /> Fetching data...
           </>
         ) : (
           <>Submit</>
