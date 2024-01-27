@@ -62,7 +62,11 @@ export function formatDateAndTime(dateTimeString) {
 export const numberWithCommas = (value) => {
   if (value !== null) {
     const rawValue = value.toString().replace(/[^0-9.]/g, "");
-    return parseFloat(rawValue).toLocaleString("en-IN");
+    if(value > 0) {
+      return parseFloat(rawValue).toLocaleString("en-IN");
+    } else {
+      return parseFloat(-rawValue).toLocaleString("en-IN");
+    }
   }
   return value;
 };

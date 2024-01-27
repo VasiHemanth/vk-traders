@@ -27,12 +27,12 @@ export default async function Search(props) {
 
   return (
     <>
-      <div className="py-4 bg-neutral-200 border-b-2 border-purple-500 grid place-items-center sticky top-14 z-50">
+      <div className="py-4 bg-card border-b-2 grid place-items-center sticky top-14 z-50">
         <SearchBar />
       </div>
       {lorry_details.length > 0 ? (
         <p className="m-2 text-center bg-green-300">
-          Found vehicle with number <b>{props.searchParams["lorry"]}</b>
+          Found vehicles with number <b>{props.searchParams["lorry"]}</b>
         </p>
       ) : (
         <>
@@ -53,7 +53,7 @@ export default async function Search(props) {
       <div className="flex items-center justify-center overflow-y-auto">
         <div className="my-5 grid grid-flow-row sm:grid-cols-2 xl:grid-cols-3">
           {lorry_details.map((lorry) => (
-            <div key={lorry.id}>
+            <div key={lorry.registration_number}>
               <Card lorry={lorry} />
             </div>
           ))}

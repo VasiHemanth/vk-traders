@@ -42,7 +42,7 @@ export default function CardIcon({ title, icon, value, description, color }) {
         </div>
         <p className="text-xs text-muted-foreground">
           {title == "Balance" ? (
-            <>Balance with gst ₹{numberWithCommas(description)}</>
+            <> GST Balance ₹{numberWithCommas(description)}</>
           ) : (
             description
           )}
