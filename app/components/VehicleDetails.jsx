@@ -1,14 +1,33 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   color,
   formatDateToDDMMYYYY,
   formatISODatetoDDMMYYY,
+  formatmonthYeartoLongMonth,
 } from "../utils/helper";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { Input } from "./ui/input";
+import VehicleDropdownMenu from "./VehicleDropdownMenu";
 
-export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
+export default function VehicleDetails({
+  vehicleId,
+  vehicleData,
+  trips,
+  monthYear,
+  getVehicleData,
+  user,
+}) {
+  const [month, setMonth] = useState(monthYear);
+
+  const handleMonth = (e) => {
+    setMonth(e.target.value);
+    getVehicleData(e.target.value);
+  };
+
   return (
     <div className="m-4 sm:m-8 w-full h-screen">
       <Link
@@ -41,23 +60,7 @@ export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
               {vehicleData.status}
             </p>
           </div>
-          <Button variant="outline" title="Open Maintanance">
-            <Link
-              href={{
-                pathname: `/vehicles/${vehicleId}/maintenance`,
-              }}
-              className="flex items-center justify-between"
-            >
-              Open
-              <Image
-                src="/maintenance.svg"
-                alt="maintanace"
-                width={22}
-                height={22}
-                className="pl-1"
-              />
-            </Link>
-          </Button>
+          <VehicleDropdownMenu vehicleId={vehicleId} user={user} />
         </div>
         <div className="mb-4 w-full text-gray-600 font-medium flex flex-row">
           <span className=" basis-1/2">Company</span>
@@ -93,10 +96,16 @@ export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
             {formatISODatetoDDMMYYY(vehicleData.fc)}
           </span>
         </div>
-        <div className="mt-6 mb-4 border-b">
+        <div className=" flex items-center justify-between mt-6 mb-4 border-b">
           <p className="text-lg text-gray-700 font-semibold pb-2">
             TRIP HISTORY
           </p>
+          <Input
+            type="month"
+            value={month}
+            onChange={handleMonth}
+            className="p-[7px] rounded-md text-sm w-[170px] mb-2"
+          />
         </div>
         {trips.length > 0 ? (
           <div className="mt-2 grid grid-cols-3 gap-3 overflow-y-auto">
@@ -125,9 +134,20 @@ export default function VehicleDetails({ vehicleId, vehicleData, trips }) {
             ))}
           </div>
         ) : (
-          <p className="text-center bg-pink-300">
-            {`Vehicle doesn't have any trip history`}
-          </p>
+          <>
+            <p className=" flex item-center text-center bg-pink-200 text-pink-500 p-2 rounded-md">
+              <Image
+                src="/info-pink.svg"
+                alt="info"
+                width={25}
+                height={25}
+                className="pr-1"
+              />
+              {`No trip history found for `}
+
+              {formatmonthYeartoLongMonth(month)}
+            </p>
+          </>
         )}
       </div>
     </div>

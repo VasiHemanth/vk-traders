@@ -71,12 +71,23 @@ export default function Navbar() {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuGroup>
+              {/* <DropdownMenuGroup>
                 <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
               </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={logOutUser}>Log out</DropdownMenuItem>
+              <DropdownMenuSeparator /> */}
+              <DropdownMenuItem onClick={logOutUser}>
+                <span className="flex items-center justify-between w-full">
+                  Log out
+                  <Image
+                    src="/logout.svg"
+                    alt="log-out"
+                    width={22}
+                    height={22}
+                    className="pl-1"
+                  />
+                </span>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )}

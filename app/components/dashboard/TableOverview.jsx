@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/app/components/ui/table";
 import { formatYYYYMMDDToDDMMYYYY } from "@/app/utils/helper";
-import { object } from "zod";
 
 export default function TableOverview({ allTrips }) {
   return (
@@ -20,7 +19,7 @@ export default function TableOverview({ allTrips }) {
             <TableHead
               key={index}
               className={`text-center border border-gray-600 ${
-                index === 0 ? "px-8" : ""
+                index === 1 ? "px-8" : ""
               }`}
             >
               {column}
@@ -32,6 +31,9 @@ export default function TableOverview({ allTrips }) {
         {allTrips["column_values"].map((column, i) => (
           <>
             <TableRow key={i}>
+              <TableCell className="border border-r border-gray-600 text-center">
+                {column["S.No."]}
+              </TableCell>
               <TableCell className="border border-r border-gray-600">
                 {formatYYYYMMDDToDDMMYYYY(column["DATE"])}
                 {/* {column["DATE"]} */}

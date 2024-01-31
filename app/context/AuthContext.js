@@ -8,12 +8,9 @@ import {jwtDecode} from 'jwt-decode'
 import Cookies from 'universal-cookie';
 import EnvAPI from '../../lib/EnvAPI';
 
-
-
 const AuthContext = createContext()
 
 export default AuthContext
-
 
 export const AuthProvider = ({children}) => {
     const [authAccess, setAuthAccess] = useState(
