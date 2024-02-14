@@ -6,6 +6,7 @@ import VehicleDetails from "@/app/components/VehicleDetails";
 import EnvAPI from "@/lib/EnvAPI";
 import AuthContext from "@/app/context/AuthContext";
 import ButtonLoader from "@/app/components/ButtonLoader";
+import Loader from "@/app/components/Loader";
 
 export default function VehicleData(props) {
   const [vehicleData, setVehicleData] = useState({
@@ -60,8 +61,8 @@ export default function VehicleData(props) {
   return (
     <div className="flex items-center justify-center">
       {vehicleData.loader ? (
-        <div className="h-[30vh] flex items-end">
-          <ButtonLoader />
+        <div className="w-full">
+          <Loader />
         </div>
       ) : (
         <VehicleDetails

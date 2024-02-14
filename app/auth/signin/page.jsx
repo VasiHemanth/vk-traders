@@ -11,6 +11,7 @@ import ButtonLoader from "@/app/components/ButtonLoader";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
+import CustomAlert from "@/app/components/CustomAlert";
 
 export default function Login() {
   const [login, setLogin] = useState({
@@ -99,7 +100,7 @@ export default function Login() {
                       />
                       {errors.username && (
                         <span className="text-sm text-pink-500">
-                          This field is required
+                          Username is required
                         </span>
                       )}
                     </div>
@@ -128,7 +129,7 @@ export default function Login() {
                         {login.isFocused && (
                           <button
                             type="button"
-                            className={`absolute top-1/2 right-4 transform -translate-y-1/2 
+                            className={`absolute top-1/2 right-4 transform -translate-y-1/2
                           `}
                             onClick={togglePasswordVisibility}
                             onMouseDown={(e) => e.preventDefault()}
@@ -152,7 +153,7 @@ export default function Login() {
                         )}
                         {errors.password && (
                           <span className="text-sm text-pink-500">
-                            This field is required
+                            Password is required
                           </span>
                         )}
                       </div>
@@ -170,9 +171,17 @@ export default function Login() {
                         <>Sign in</>
                       )}
                     </Button>
-                    <p className="my-3 text-sm text-neutral-500 text-center hover:underline hover:cursor-pointer">
-                      Forgot Password
-                    </p>
+                    <CustomAlert
+                      triggerClassName={`text-center w-full`}
+                      component={
+                        <p className="my-3 text-sm text-muted-foreground hover:underline hover:cursor-pointer">
+                          Forgot Password
+                        </p>
+                      }
+                      title={"Forgot your passoword?"}
+                      description={`If you wish to reset password, Contact Developer.`}
+                      action={false}
+                    />
                   </form>
                 </div>
               </div>

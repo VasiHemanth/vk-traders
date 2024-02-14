@@ -92,7 +92,6 @@ export default function Overview() {
     return overivewVitalsRecentDeliveries.ok;
   };
 
-  console.log("overview", overview, "chart data", chartData);
   return (
     <div className=" p-1 pb-2">
       <div

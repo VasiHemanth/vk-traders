@@ -24,7 +24,7 @@ export default function VehicleDropdownMenu({ vehicleId, user }) {
         <DropdownMenuLabel>My Vehicle</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {user.is_superuser && (
+          {user && user.is_superuser && (
             <DropdownMenuItem>
               <Link
                 href={{

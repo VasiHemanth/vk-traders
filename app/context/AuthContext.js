@@ -23,6 +23,8 @@ export const AuthProvider = ({children}) => {
         ()=> typeof window !== 'undefined' && localStorage.getItem('user_details') ? localStorage.getItem('user_details') : null
     );
     const [loading, setLoading] = useState(true)
+
+    const [authLoading, setAuthLoading] = useState(false)
     
     const router = useRouter()
     const { toast } = useToast()
@@ -76,7 +78,13 @@ export const AuthProvider = ({children}) => {
 
     const logOutUser = async() => {
         router.push('/auth/signin')
-        const logout = await fetch(`${url}/api/logout?refresh-token=${authRefresh}`)
+        try {
+            await fetch(`${url}/api/logout?refresh-token=${authRefresh}`)
+        } catch(e) {
+            toast({
+                description: 'Something went wrong!',
+            })  
+        }
         cookies.remove('django-auth-refresh', {path: '/'})
         cookies.remove('django-auth-access', {path: '/'})
         localStorage.removeItem('access')
@@ -88,6 +96,7 @@ export const AuthProvider = ({children}) => {
 
     const updateToken = async() => {
         try {
+            setAuthLoading(true)
             const response = await fetch(`${url}/api/token/refresh/`, {
                 method: 'POST',
                 headers: {
@@ -108,8 +117,10 @@ export const AuthProvider = ({children}) => {
                 setAuthAccess(data.access)
                 setAuthRefresh(data.refresh)
                 setUser(jwtDecode(data.access))
+                setAuthLoading(false)
             } else {
                 logOutUser()
+                setAuthLoading(false)
             }
     
             if(loading) {
@@ -127,7 +138,8 @@ export const AuthProvider = ({children}) => {
         AuthTokens: {
             access : authAccess,
             refresh: authRefresh
-        }
+        },
+        loading: authLoading,
     }
 
     useEffect(()=> {
@@ -137,6 +149,8 @@ export const AuthProvider = ({children}) => {
 
         // 1s = 1000ms | 1m = 60s | 1h = 60m  
         let fourHoursFiftyEightMinutes = 4 * 60 * 60 * 1000 + 1000 * 60 * 58 
+        // let fourHoursFiftyEightMinutes = 3 * 60 * 1000 
+
 
         let interval =  setInterval(()=> {
             if(authAccess && authRefresh){
