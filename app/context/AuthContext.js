@@ -50,6 +50,7 @@ export const AuthProvider = ({children}) => {
                 });
                 cookies.set('django-auth-refresh', data.refresh)
                 cookies.set('django-auth-access', data.access)
+                cookies.set('auth-loading',false)
                 // console.log("access data", data, typeof data)
                 localStorage.setItem('access', data.access)
                 localStorage.setItem('refresh', data.refresh)
@@ -87,6 +88,7 @@ export const AuthProvider = ({children}) => {
         }
         cookies.remove('django-auth-refresh', {path: '/'})
         cookies.remove('django-auth-access', {path: '/'})
+        cookies.remove('auth-loading', {path: '/'})
         localStorage.removeItem('access')
         localStorage.removeItem('refresh')
         setAuthAccess(null)
@@ -97,6 +99,7 @@ export const AuthProvider = ({children}) => {
     const updateToken = async() => {
         try {
             setAuthLoading(true)
+            cookies.set('auth-loading', true)
             const response = await fetch(`${url}/api/token/refresh/`, {
                 method: 'POST',
                 headers: {
@@ -110,6 +113,7 @@ export const AuthProvider = ({children}) => {
                 console.log('Reloading page checking this function is working or not')
                 cookies.set('django-auth-refresh', data.refresh)
                 cookies.set('django-auth-access', data.access)
+                cookies.set('auth-loading', false)
                 console.log('new access token updated')
                 localStorage.setItem('access', data.access)
                 localStorage.setItem('refresh', data.refresh)
@@ -148,8 +152,8 @@ export const AuthProvider = ({children}) => {
         }
 
         // 1s = 1000ms | 1m = 60s | 1h = 60m  
-        let fourHoursFiftyEightMinutes = 4 * 60 * 60 * 1000 + 1000 * 60 * 58 
-        // let fourHoursFiftyEightMinutes = 3 * 60 * 1000 
+        // let fourHoursFiftyEightMinutes = 4 * 60 * 60 * 1000 + 1000 * 60 * 58 
+        let fourHoursFiftyEightMinutes = 3 * 60 * 1000 
 
 
         let interval =  setInterval(()=> {

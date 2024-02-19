@@ -17,7 +17,7 @@ export default function VehicleData(props) {
 
   const envUrl = EnvAPI();
 
-  const { user, AuthTokens } = useContext(AuthContext);
+  const { user, loading, AuthTokens } = useContext(AuthContext);
 
   const getVehicleData = async (params) => {
     setVehicleData({
@@ -53,10 +53,7 @@ export default function VehicleData(props) {
 
   useEffect(() => {
     getVehicleData();
-  }, []);
-
-  // const vehicleDetails = response.vehicle_details;
-  // const trips = response.trip_dates;
+  }, [loading]);
 
   return (
     <div className="flex items-center justify-center">
