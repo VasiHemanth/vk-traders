@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
-import AuthContext from "@/app/context/AuthContext";
 import EnvAPI from "@/lib/EnvAPI";
 
 import TruckVitals from "@/app/components/dashboard/TruckVitals";
@@ -11,6 +10,7 @@ import CardRecent from "@/app/components/dashboard/CardRecent";
 import VehicleMonthSelector from "@/app/components/dashboard/VehicleMonthSelector";
 
 import ButtonLoader from "@/app/components/ButtonLoader";
+import { useSession } from "next-auth/react";
 
 export default function Overview() {
   const [overview, setOverview] = useState({
@@ -21,14 +21,10 @@ export default function Overview() {
     allTrips: [],
     fetched: false,
   });
-
   const [chartData, setChartData] = useState(null);
-
   const [query, setQuery] = useState(null);
-
   const url = EnvAPI();
-
-  const { AuthTokens } = useContext(AuthContext);
+  const { data } = useSession();
 
   const handleChartDataColumn = async (column, monthYear, vehicle) => {
     const getChartData = await fetch(
@@ -37,7 +33,7 @@ export default function Overview() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + AuthTokens.access,
+          Authorization: "Bearer " + data.user.access_token,
         },
       }
     );
@@ -71,7 +67,7 @@ export default function Overview() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + AuthTokens.access,
+          Authorization: "Bearer " + data.user.access_token,
         },
       }
     );

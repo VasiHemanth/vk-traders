@@ -1,6 +1,6 @@
 import { Toaster } from "@/app/components/ui/toaster";
-import { AuthProvider } from "./context/AuthContext";
 import "./globals.css";
+import AuthProvider from "./context/AuthProvider";
 // import { Inter } from "next/font/google";
 
 // const inter = Inter({ subsets: ["latin"] });

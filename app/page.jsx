@@ -1,17 +1,15 @@
 "use client";
-import React, { useContext } from "react";
+import React from "react";
 // import { useRouter } from "next/navigation";
 import Navbar from "./components/Navbar";
 import Link from "next/link";
 import { Button } from "./components/ui/button";
-import AuthContext from "./context/AuthContext";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   // const router = useRouter();
 
-  const { user } = useContext(AuthContext);
-
-  console.log("user in home page", user);
+  const { data } = useSession();
 
   return (
     <>
@@ -20,7 +18,7 @@ export default function Home() {
         <h1 className="text-xl mb-2">Welcome to VK Traders</h1>
         {/* <OpenApp /> */}
 
-        {user ? (
+        {data ? (
           <Button>
             <Link href="/vehicles">Open App</Link>
           </Button>

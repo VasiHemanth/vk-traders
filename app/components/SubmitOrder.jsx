@@ -4,7 +4,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import AuthContext from "../context/AuthContext";
 import { numberWithCommas } from "../utils/helper";
 import EnvAPI from "@/lib/EnvAPI";
 

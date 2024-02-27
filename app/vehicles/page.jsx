@@ -15,11 +15,12 @@ export default async function Vehicle() {
   const envUrl = EnvAPI();
 
   const cookieStore = cookies();
+  console.log("vehicles");
   // console.log("access token", cookieStore.get("django-auth-access").value);
 
   const accessToken =
-    cookieStore.get("django-auth-access") != undefined
-      ? cookieStore.get("django-auth-access").value
+    cookieStore.get("access_token") != undefined
+      ? cookieStore.get("access_token").value
       : null;
 
   // if (accessToken != null) {
@@ -35,7 +36,7 @@ export default async function Vehicle() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + cookieStore.get("django-auth-access").value,
+        Authorization: "Bearer " + accessToken,
       },
     });
     getVehicles = await vehicles.json();

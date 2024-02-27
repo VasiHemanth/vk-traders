@@ -11,7 +11,7 @@ export default async function Order({ params, searchParams }) {
   const tripType = searchParams["trip-type"];
 
   const cookieStore = cookies();
-  const access_token = cookieStore.get("django-auth-access");
+  const access_token = cookieStore.get("access_token");
   const envUrl = EnvAPI();
 
   const orderDetials = await fetch(

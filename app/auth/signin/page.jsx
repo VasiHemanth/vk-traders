@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 
 import Cookies from "universal-cookie";
-import AuthContext from "@/app/context/AuthContext";
+
 import ButtonLoader from "@/app/components/ButtonLoader";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
 import CustomAlert from "@/app/components/CustomAlert";
+import { signIn } from "next-auth/react";
+import { useToast } from "@/app/components/ui/use-toast";
 
 export default function Login() {
   const [login, setLogin] = useState({
@@ -27,10 +29,8 @@ export default function Login() {
     control,
     formState: { errors },
   } = useForm();
-
   const router = useRouter();
-
-  const { loginUser } = useContext(AuthContext);
+  const { toast } = useToast();
   const cookies = new Cookies(null, { path: "/" });
 
   const togglePasswordVisibility = () => {
@@ -43,7 +43,28 @@ export default function Login() {
   const onSubmit = async (loginData) => {
     // Login logic
     setLogin({ ...login, loading: true });
-    const loginStatus = await loginUser(loginData.username, loginData.password);
+    const loginStatus = await signIn("credentials", {
+      username: loginData.username,
+      password: loginData.password,
+      redirect: true,
+      callbackUrl: "/vehicles",
+    });
+
+    if (loginStatus.error) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! SignIn failed",
+        description: `${loginStatus.error}`,
+      });
+    }
+
+    if (loginStatus.ok) {
+      toast({
+        description: "Logged in successfully!",
+        // action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+      router.push("/vehicles");
+    }
     console.log("loginStatus", loginStatus);
     setLogin({ ...login, loading: false });
   };

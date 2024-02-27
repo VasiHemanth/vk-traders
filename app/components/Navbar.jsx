@@ -1,6 +1,10 @@
 "use client";
+import React from "react";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import Image from "next/image";
+import Cookies from "universal-cookie";
+import { usePathname } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 import {
   DropdownMenu,
@@ -10,25 +14,34 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/components/ui/dropdown-menu";
-
 import { Avatar, AvatarFallback } from "@/app/components/ui/avatar";
-import AuthContext from "../context/AuthContext";
-import { usePathname } from "next/navigation";
-import Image from "next/image";
+
 import Loader from "./Loader";
 
 export default function Navbar() {
-  const { user, loading, logOutUser } = useContext(AuthContext);
-
   const pathname = usePathname();
+  const { data } = useSession();
+  const cookies = new Cookies(null, { path: "/" });
+
+  const handleLogout = () => {
+    cookies.remove("refresh_token", { path: "/" });
+    cookies.remove("access_token", { path: "/" });
+    cookies.remove("username", { path: "/" });
+
+    signOut({ callbackUrl: "/auth/signin" }).then(() =>
+      console.log("logged out")
+    );
+  };
+
+  console.log("data", data);
 
   return (
     <>
-      {loading && <Loader />}
+      {/* {loading && <Loader />} */}
       <nav className="shadow-sm mx-auto max-w-8xl py-1 sm:px-6 lg:px-8 h-14 bg-background sticky top-0 z-50 border border-b-1">
         <div
           className={`flex items-center ${
-            user ? "justify-between" : "justify-center"
+            data ? "justify-between" : "justify-center"
           } mx-2`}
         >
           <div className="flex items-center space-x-4 lg:space-x-6 text-foreground">
@@ -44,18 +57,21 @@ export default function Navbar() {
             {pathname.includes("/application") && (
               <Link href="/vehicles">Vehicles</Link>
             )}
-            {user && user.is_superuser && pathname.includes("/vehicles") && (
-              <Link href="/application/Overview">Overview</Link>
-            )}
+            {data &&
+              data.user.is_superuser &&
+              (pathname.includes("/vehicles") ||
+                pathname.includes("/new-trip")) && (
+                <Link href="/application/Overview">Overview</Link>
+              )}
           </div>
 
-          {user && (
+          {data && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Avatar className="h-8 w-8 rounded-full cursor-pointer">
                   <AvatarFallback className="text-primary">
-                    {user.first_name && user.first_name[0]}
-                    {user.last_name && user.last_name.at(0)}
+                    {data.user.name[0].toUpperCase()}
+                    {data.user.name[1].toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
@@ -63,10 +79,10 @@ export default function Navbar() {
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium leading-none">
-                      {user.username}
+                      {data.user.name}
                     </p>
                     <p className="text-xs leading-none text-muted-foreground">
-                      {user.email}
+                      {data.user.email}
                     </p>
                   </div>
                 </DropdownMenuLabel>
@@ -76,7 +92,7 @@ export default function Navbar() {
                 <DropdownMenuItem>Settings</DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator /> */}
-                <DropdownMenuItem onClick={logOutUser}>
+                <DropdownMenuItem onClick={() => handleLogout()}>
                   <span className="flex items-center justify-between w-full">
                     Log out
                     <Image

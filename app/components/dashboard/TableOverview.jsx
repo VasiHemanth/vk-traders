@@ -157,7 +157,7 @@ export default function TableOverview({ allTrips }) {
         <TableRow className="border-2 border-gray-600">
           {Object.entries(allTrips["total"]).map(([key, value], i) => (
             <TableCell
-              key={key}
+              key={i}
               className={`text-primary font-bold text-center border-y-2 border-gray-600 ${
                 value != null ? "border-x" : ""
               }`}

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import VehicleDetails from "@/app/components/VehicleDetails";
 import EnvAPI from "@/lib/EnvAPI";
-import AuthContext from "@/app/context/AuthContext";
-import ButtonLoader from "@/app/components/ButtonLoader";
+
 import Loader from "@/app/components/Loader";
+import { useSession } from "next-auth/react";
 
 export default function VehicleData(props) {
   const [vehicleData, setVehicleData] = useState({
@@ -14,10 +14,8 @@ export default function VehicleData(props) {
     trips: [],
     loader: false,
   });
-
   const envUrl = EnvAPI();
-
-  const { user, AuthTokens } = useContext(AuthContext);
+  const { data } = useSession();
 
   const getVehicleData = async (params) => {
     setVehicleData({
@@ -38,7 +36,7 @@ export default function VehicleData(props) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + AuthTokens.access,
+        Authorization: "Bearer " + data.user.access_token,
       },
     });
     const response = await getDetails.json();
@@ -71,7 +69,7 @@ export default function VehicleData(props) {
           monthYear={vehicleData.monthYear}
           trips={vehicleData.trips}
           getVehicleData={getVehicleData}
-          user={user}
+          user={data.user}
         />
       )}
     </div>

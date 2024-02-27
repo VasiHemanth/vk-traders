@@ -8,7 +8,7 @@ import AddEMIDialog from "@/app/components/emi/AddEMIDialog";
 
 export default async function EMI(props) {
   const cookieStore = cookies();
-  const access_token = cookieStore.get("django-auth-access");
+  const access_token = cookieStore.get("access_token");
 
   const url = EnvAPI();
 

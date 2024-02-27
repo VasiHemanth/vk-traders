@@ -5,14 +5,15 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { useForm, Controller } from "react-hook-form";
-import AuthContext from "../context/AuthContext";
+
 import EnvAPI from "@/lib/EnvAPI";
 import { Button } from "./ui/button";
+import { useSession } from "next-auth/react";
 
 export default function SubmitTrip({ vehicleId, tripId }) {
   const [show, setShow] = useState(false);
 
-  const { AuthTokens, logOutUser } = useContext(AuthContext);
+  const { data } = useSession();
 
   const router = useRouter();
 
@@ -50,7 +51,7 @@ export default function SubmitTrip({ vehicleId, tripId }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + AuthTokens.access,
+        Authorization: "Bearer " + data.user.access_token,
       },
       body: JSON.stringify({ tripId: tripId, trip_data: data }),
     });
@@ -59,7 +60,7 @@ export default function SubmitTrip({ vehicleId, tripId }) {
       const response = await updateData.json();
       return response;
     } else {
-      logOutUser();
+      // logOutUser();
       return null;
     }
   };

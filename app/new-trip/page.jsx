@@ -1,27 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import Image from "next/image";
-import AuthContext from "../context/AuthContext";
+
 import EnvAPI from "@/lib/EnvAPI";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
+import { useSession } from "next-auth/react";
 
 export default function NewTrip() {
+  const router = useRouter();
   const [vehicleData, setVehicleData] = useState(null);
   const [show, setShow] = useState(false);
-  const tripTypeOptions = [
-    { label: "One Way", value: "One Way" },
-    { label: "Round Trip", value: "Round Trip" },
-  ];
-
-  const { AuthTokens } = useContext(AuthContext);
-
+  const url = EnvAPI();
+  const { data } = useSession();
   const {
     register,
     handleSubmit,
@@ -30,19 +27,19 @@ export default function NewTrip() {
     control,
     formState: { errors },
   } = useForm();
-
   const tripTypeWatch = watch("tripType");
 
-  const router = useRouter();
-
-  const url = EnvAPI();
+  const tripTypeOptions = [
+    { label: "One Way", value: "One Way" },
+    { label: "Round Trip", value: "Round Trip" },
+  ];
 
   const fetchVehicleId = async () => {
     const vehicleData = await fetch(`${url}/api/create-trip`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + AuthTokens.access,
+        Authorization: "Bearer " + data.user.access_token,
       },
     });
     const options = await vehicleData.json();
@@ -53,30 +50,32 @@ export default function NewTrip() {
     fetchVehicleId();
   }, []);
 
-  const insertTrip = async (data) => {
+  const insertTrip = async (trip_data) => {
     const AddTrip = await fetch(`${url}/api/create-trip`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + AuthTokens.access,
+        Authorization: "Bearer " + data.user.access_token,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(trip_data),
     });
     const response = await AddTrip.json();
     return response;
   };
 
-  const gotToHome = (data) => {
-    router.push(`/vehicles/${data.vehicle_id}/${data.id}/add-order`);
+  const gotToHome = (navigation_data) => {
+    router.push(
+      `/vehicles/${navigation_data.vehicle_id}/${navigation_data.id}/add-order`
+    );
   };
 
-  const onSubmit = (data) => {
-    const returnedTripData = insertTrip(data);
+  const onSubmit = (submitting_data) => {
+    const returnedTripData = insertTrip(submitting_data);
     setShow(true);
     reset(); // Reset form
     setTimeout(() => {
-      returnedTripData.then((data) => {
-        gotToHome(data); // redirect to home page
+      returnedTripData.then((navigation_data) => {
+        gotToHome(navigation_data); // redirect to home page
       });
     }, 2000);
   };

@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 export default async function Maintanance(props) {
   const cookieStore = cookies();
-  const access_token = cookieStore.get("django-auth-access");
+  const access_token = cookieStore.get("access_token");
   const url = EnvAPI();
 
   const get_maintenance_data = await fetch(

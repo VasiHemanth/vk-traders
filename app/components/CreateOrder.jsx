@@ -3,18 +3,19 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import AuthContext from "../context/AuthContext";
+
 import EnvAPI from "@/lib/EnvAPI";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useSession } from "next-auth/react";
 
 export default function CreateOrder({ vehicleId, tripId }) {
   const router = useRouter();
   const [show, setShow] = useState(false);
-
-  const { AuthTokens, logOutUser } = useContext(AuthContext);
+  const { data } = useSession();
+  // const { AuthTokens, logOutUser } = useContext(AuthContext);
 
   const {
     register,
@@ -33,21 +34,21 @@ export default function CreateOrder({ vehicleId, tripId }) {
     );
   };
 
-  const insertOrder = async (data) => {
+  const insertOrder = async (order_data) => {
     const Order = await fetch(`${url}/api/create-order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + AuthTokens.access,
+        Authorization: "Bearer " + data.user.access_token,
       },
-      body: JSON.stringify({ order_data: data, trip_id: tripId }),
+      body: JSON.stringify({ order_data: order_data, trip_id: tripId }),
     });
 
     if (Order.status === 200) {
       const response = await Order.json();
       return response;
     } else {
-      logOutUser();
+      // logOutUser();
       return null;
     }
   };

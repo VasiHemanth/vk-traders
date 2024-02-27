@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { formatDateAndTime, formatDateToDDMMYYYY } from "@/app/utils/helper";
 import EnvAPI from "@/lib/EnvAPI";
-import AuthContext from "@/app/context/AuthContext";
+
 import { Button } from "@/app/components/ui/button";
+import { useSession } from "next-auth/react";
 
 export default function TripDetails({ params }) {
   const vehicleId = params["vehicleId"];
@@ -13,7 +14,7 @@ export default function TripDetails({ params }) {
 
   const [response, setResponse] = useState(null);
 
-  const { AuthTokens, logOutUser } = useContext(AuthContext);
+  const { data } = useSession();
 
   const envUrl = EnvAPI();
 
@@ -25,7 +26,7 @@ export default function TripDetails({ params }) {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + AuthTokens.access,
+            Authorization: "Bearer " + data.user.access_token,
           },
         }
       );

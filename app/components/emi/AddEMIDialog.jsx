@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import { Button } from "@/app/components/ui/button";
@@ -20,12 +20,16 @@ import { useToast } from "@/app/components/ui/use-toast";
 import { useForm, Controller } from "react-hook-form";
 import EnvAPI from "@/lib/EnvAPI";
 import { useRouter } from "next/navigation";
-import AuthContext from "@/app/context/AuthContext";
+
 import ButtonLoader from "../ButtonLoader";
+import { useSession } from "next-auth/react";
 
 export default function AddServiceDialog({ vehicle_id }) {
+  const router = useRouter();
   const [loader, setLoader] = useState(false);
-
+  const { data } = useSession();
+  const { toast } = useToast();
+  const url = EnvAPI();
   const {
     register,
     handleSubmit,
@@ -36,24 +40,18 @@ export default function AddServiceDialog({ vehicle_id }) {
     setValue,
   } = useForm();
 
-  const { AuthTokens } = useContext(AuthContext);
-
-  const url = EnvAPI();
-  const router = useRouter();
-  const { toast } = useToast();
-
-  const handleSave = async (data) => {
+  const handleSave = async (emi_data) => {
     setLoader(true);
-    data["vehicle_id"] = vehicle_id;
-    data["emi_type"] = "truck";
-    console.log("data", data);
+    emi_data["vehicle_id"] = vehicle_id;
+    emi_data["emi_type"] = "truck";
+    console.log("data", emi_data);
     const submitEmi = await fetch(`${url}/api/emi-data`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + AuthTokens.access,
+        Authorization: "Bearer " + data.user.access_token,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(emi_data),
     });
 
     const verifyRecord = await submitEmi.json();

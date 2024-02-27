@@ -20,12 +20,16 @@ import { useToast } from "@/app/components/ui/use-toast";
 import { useForm, Controller } from "react-hook-form";
 import EnvAPI from "@/lib/EnvAPI";
 import { useRouter } from "next/navigation";
-import AuthContext from "@/app/context/AuthContext";
+
 import ButtonLoader from "../ButtonLoader";
+import { useSession } from "next-auth/react";
 
 export default function AddServiceDialog({ vehicle_id }) {
+  const router = useRouter();
   const [loader, setLoader] = useState(false);
-
+  const url = EnvAPI();
+  const { toast } = useToast();
+  const { data } = useSession();
   const {
     register,
     handleSubmit,
@@ -36,23 +40,17 @@ export default function AddServiceDialog({ vehicle_id }) {
     setValue,
   } = useForm();
 
-  const { AuthTokens } = useContext(AuthContext);
-
-  const url = EnvAPI();
-  const router = useRouter();
-  const { toast } = useToast();
-
-  const handleSave = async (data) => {
+  const handleSave = async (maintenance_data) => {
     setLoader(true);
-    data["vehicle_id"] = vehicle_id;
-    console.log("data", data);
+    maintenance_data["vehicle_id"] = vehicle_id;
+    console.log("maintenance_data", maintenance_data);
     const submitMaintenance = await fetch(`${url}/api/maintenance-data`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + AuthTokens.access,
+        Authorization: "Bearer " + data.user.access_token,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(maintenance_data),
     });
 
     const verifyRecord = await submitMaintenance.json();

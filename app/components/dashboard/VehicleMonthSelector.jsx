@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -13,7 +13,7 @@ import { Button } from "@/app/components/ui/button";
 import { Input } from "../ui/input";
 import EnvAPI from "@/lib/EnvAPI";
 import ButtonLoader from "../ButtonLoader";
-import AuthContext from "@/app/context/AuthContext";
+import { useSession } from "next-auth/react";
 
 export default function VehicleMonthSelector({
   vehicle,
@@ -25,10 +25,8 @@ export default function VehicleMonthSelector({
     selectedTruck: "",
     loading: false,
   });
-
   const url = EnvAPI();
-
-  const { AuthTokens } = useContext(AuthContext);
+  const { data } = useSession();
 
   useEffect(() => {
     const getAllTrucks = async () => {
@@ -36,7 +34,7 @@ export default function VehicleMonthSelector({
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + AuthTokens.access,
+          Authorization: "Bearer " + data.user.access_token,
         },
       });
       const truckResponse = await allTrucks.json();
