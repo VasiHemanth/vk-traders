@@ -1,8 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Demo
-<video src="Vk-traders App Recording.mov" controls="controls" style="max-width: 730px;">
-</video>
+https://github.com/VasiHemanth/vk-traders/assets/44475523/dea52b6e-43c9-4966-8d56-3dec95c1a5cb
 
 ## Getting Started
 
